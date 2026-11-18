@@ -1,0 +1,317 @@
+.visual {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin-left: auto;
+  padding: 40px 0 56px;
+  user-select: none;
+}
+
+/* Browser window */
+.browser {
+  border-radius: 18px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-lift);
+  overflow: hidden;
+  animation: float 7s ease-in-out infinite;
+}
+
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-border);
+}
+
+.url {
+  margin-left: 12px;
+  flex: 1;
+  max-width: 220px;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+.page {
+  padding: 18px 20px 22px;
+  display: grid;
+  gap: 18px;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brandBar {
+  width: 64px;
+  height: 10px;
+  border-radius: 6px;
+  background: var(--color-text);
+  opacity: 0.85;
+}
+
+.navBars {
+  display: flex;
+  gap: 8px;
+}
+
+.navBars span {
+  width: 28px;
+  height: 7px;
+  border-radius: 6px;
+  background: var(--color-border);
+}
+
+.heroBlock {
+  display: grid;
+  gap: 9px;
+  padding: 18px;
+  border-radius: 14px;
+  background: var(--hero-gradient), var(--color-surface);
+}
+
+.line {
+  height: 10px;
+  border-radius: 6px;
+  background: var(--color-text);
+  opacity: 0.8;
+}
+
+.lineLg {
+  width: 82%;
+  height: 14px;
+}
+
+.lineMd {
+  width: 64%;
+  height: 14px;
+}
+
+.lineSm {
+  width: 48%;
+  opacity: 0.3;
+}
+
+.cta {
+  justify-self: start;
+  margin-top: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-size: 11px;
+  font-weight: 700;
+  animation: pulse 3.5s ease-in-out infinite;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.cards span {
+  height: 46px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+/* Floating cards */
+.notify,
+.pipeline {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-lift);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.notify {
+  left: -28px;
+  bottom: 18px;
+  animation: notify 9s var(--ease) infinite;
+}
+
+.notifyIcon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  flex-shrink: 0;
+}
+
+.notifyText {
+  display: grid;
+  line-height: 1.35;
+}
+
+.notifyText strong {
+  font-size: 13px;
+}
+
+.notifyText span {
+  color: var(--color-text-secondary);
+}
+
+.notifyTime {
+  align-self: flex-start;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+}
+
+.pipeline {
+  right: -20px;
+  top: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  animation: float 7s ease-in-out infinite reverse;
+}
+
+.pipelineLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.chips {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.arrow {
+  color: var(--color-text-secondary);
+  font-size: 11px;
+}
+
+.chip {
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  font-size: 11px;
+}
+
+/* The highlighted step moves New -> Contacted -> Won every 9 seconds. */
+.chip1 {
+  animation: chip-a 9s infinite;
+}
+
+.chip2 {
+  animation: chip-b 9s infinite;
+}
+
+.chip3 {
+  animation: chip-c 9s infinite;
+}
+
+@keyframes chip-a {
+  0%, 30% { background: var(--color-accent-soft); color: var(--color-accent); border-color: var(--color-accent); }
+  34%, 100% { background: transparent; color: var(--color-text-secondary); border-color: var(--color-border); }
+}
+
+@keyframes chip-b {
+  0%, 30% { background: transparent; color: var(--color-text-secondary); border-color: var(--color-border); }
+  34%, 63% { background: var(--color-accent-soft); color: var(--color-accent); border-color: var(--color-accent); }
+  67%, 100% { background: transparent; color: var(--color-text-secondary); border-color: var(--color-border); }
+}
+
+@keyframes chip-c {
+  0%, 63% { background: transparent; color: var(--color-text-secondary); border-color: var(--color-border); }
+  67%, 100% { background: var(--color-accent); color: var(--color-accent-contrast); border-color: var(--color-accent); }
+}
+
+@keyframes notify {
+  0% { opacity: 0; transform: translateY(14px) scale(0.97); }
+  6%, 88% { opacity: 1; transform: none; }
+  96%, 100% { opacity: 0; transform: translateY(6px); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--color-accent-soft); }
+  50% { box-shadow: 0 0 0 8px transparent; }
+}
+
+@media (max-width: 960px) {
+  .visual {
+    margin: var(--space-4) auto 0;
+    max-width: 440px;
+  }
+  .notify {
+    left: -8px;
+  }
+  .pipeline {
+    right: -8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .visual {
+    padding: 52px 0 64px;
+  }
+  .notify {
+    left: 0;
+    bottom: 10px;
+  }
+  .pipeline {
+    right: 0;
+  }
+  .cards span {
+    height: 34px;
+  }
+}
+
+/* Reduced motion: show the finished state, no movement. */
+@media (prefers-reduced-motion: reduce) {
+  .browser,
+  .pipeline,
+  .notify,
+  .cta,
+  .chip1,
+  .chip2,
+  .chip3 {
+    animation: none !important;
+  }
+  .notify {
+    opacity: 1;
+  }
+  .chip3 {
+    background: var(--color-accent);
+    color: var(--color-accent-contrast);
+    border-color: var(--color-accent);
+  }
+}

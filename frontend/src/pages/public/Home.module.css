@@ -1,0 +1,450 @@
+/* Hero ---------------------------------------------------------------- */
+.hero {
+  padding: var(--space-12) 0 var(--space-10);
+  background: var(--hero-gradient);
+  border-bottom: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: center;
+}
+
+.heroTitle {
+  max-width: 15ch;
+  font-size: clamp(2.5rem, 5.4vw, 4.25rem);
+}
+
+.word {
+  display: inline-block;
+  animation: word-rise 700ms var(--ease) both;
+}
+
+@keyframes word-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.45em);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+.heroLead {
+  margin-top: var(--space-3);
+  max-width: 560px;
+}
+
+.heroActions {
+  margin-top: var(--space-5);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Facts strip ------------------------------------------------------------ */
+.facts {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.factsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.fact {
+  padding: var(--space-5) var(--space-3);
+  border-left: 1px solid var(--color-border);
+}
+
+.fact:first-child {
+  border-left: none;
+  padding-left: 0;
+}
+
+.factValue {
+  font-size: clamp(2.25rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.factUnit {
+  font-size: 0.4em;
+  font-weight: 600;
+  letter-spacing: 0;
+  margin-left: 4px;
+  color: var(--color-accent);
+}
+
+.factLabel {
+  margin-top: var(--space-1);
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+  max-width: 24ch;
+}
+
+/* Shared ----------------------------------------------------------------- */
+.sectionTitle {
+  max-width: 20ch;
+}
+
+.surface {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.splitHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-6);
+}
+
+/* Lanes ------------------------------------------------------------------- */
+.lanes {
+  margin-top: var(--space-6);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.lane {
+  padding: var(--space-3);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-raised);
+  display: grid;
+  gap: var(--space-1);
+  align-content: start;
+  transition: transform var(--duration) var(--ease), box-shadow var(--duration) var(--ease);
+}
+
+.lane:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lift);
+}
+
+.laneName {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--text-small);
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.laneNumber {
+  font-size: var(--text-tiny);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-secondary);
+  padding: 2px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+}
+
+.laneTitle {
+  font-size: 1.35rem;
+}
+
+.laneServices {
+  margin-top: var(--space-1);
+  padding-top: var(--space-1);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--text-tiny);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+/* How it works ----------------------------------------------------------- */
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-2);
+  position: relative;
+}
+
+.steps::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background: var(--color-border);
+}
+
+/* The teal line draws from left to right once the timeline is in view. */
+.steps::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1800ms var(--ease);
+}
+
+.drawn::after {
+  transform: scaleX(1);
+}
+
+.step {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  align-content: start;
+  padding-right: var(--space-1);
+}
+
+.step {
+  opacity: 0.55;
+  transition: opacity 500ms var(--ease) calc(var(--i) * 360ms);
+}
+
+.drawn .step {
+  opacity: 1;
+}
+
+.stepNumber {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  border: 2px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-weight: 700;
+  margin-bottom: var(--space-1);
+  transition: border-color 400ms var(--ease) calc(var(--i) * 360ms), color 400ms var(--ease) calc(var(--i) * 360ms),
+    background-color 400ms var(--ease) calc(var(--i) * 360ms), transform 400ms var(--ease) calc(var(--i) * 360ms);
+}
+
+.drawn .stepNumber {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: scale(1.06);
+}
+
+.drawn .step:last-child .stepNumber {
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.stepTitle {
+  font-size: 1.1rem;
+}
+
+.stepText {
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+}
+
+/* Services at a glance ----------------------------------------------------- */
+.glance {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.glanceGroup {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-3);
+}
+
+.glanceTitle {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-1);
+}
+
+.glanceList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.glanceItem {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.glanceList li:last-child .glanceItem {
+  border-bottom: none;
+}
+
+.glanceItem:hover {
+  text-decoration: none;
+  color: var(--color-accent);
+}
+
+.glancePrice {
+  white-space: nowrap;
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Team ------------------------------------------------------------------- */
+.team {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-raised);
+}
+
+.personName {
+  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1.3;
+}
+
+.personRole {
+  margin-top: 2px;
+  font-size: var(--text-small);
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+/* Closing ------------------------------------------------------------------ */
+.closingSection {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+}
+
+.closing {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  padding: var(--space-10) var(--space-3);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+}
+
+.closingTitle {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+}
+
+/* Responsive ------------------------------------------------------------- */
+@media (max-width: 1080px) {
+  .steps {
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: var(--space-4);
+  }
+  .steps::before,
+  .steps::after {
+    display: none;
+  }
+}
+
+@media (max-width: 960px) {
+  .heroGrid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .factsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .fact:nth-child(3) {
+    border-left: none;
+    padding-left: 0;
+  }
+  .fact:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--color-border);
+  }
+}
+
+@media (max-width: 900px) {
+  .lanes,
+  .glance,
+  .team {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .hero {
+    padding: var(--space-8) 0 var(--space-6);
+  }
+  .closing {
+    padding: var(--space-6) var(--space-2);
+  }
+  .steps {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+  .step {
+    grid-template-columns: 42px 1fr;
+    column-gap: var(--space-2);
+  }
+  .stepNumber {
+    grid-row: span 2;
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .fact {
+    padding: var(--space-3) var(--space-2) var(--space-3) var(--space-2);
+  }
+  .fact:nth-child(odd) {
+    padding-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word {
+    animation: none;
+  }
+  .step,
+  .stepNumber,
+  .steps::after {
+    transition: none;
+  }
+}
+
+/* Inquiry-to-client walkthrough ------------------------------------------- */
+.flowIntro {
+  max-width: 380px;
+}
+
+.divided {
+  border-top: 1px solid var(--color-border);
+}

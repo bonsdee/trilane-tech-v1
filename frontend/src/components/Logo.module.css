@@ -1,0 +1,29 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-text);
+}
+
+.mark {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.mark rect {
+  fill: var(--color-accent);
+}
+
+.mark path {
+  stroke: var(--color-accent-contrast);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.word {
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+}

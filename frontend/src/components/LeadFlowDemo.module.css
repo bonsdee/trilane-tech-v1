@@ -1,0 +1,844 @@
+.demo {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: var(--space-5);
+  align-items: stretch;
+}
+
+/* Step list ------------------------------------------------------------------ */
+.side {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+  position: relative;
+}
+
+/* The thin rail behind the numbered dots. */
+.steps::before {
+  content: '';
+  position: absolute;
+  left: 27px;
+  top: 22px;
+  bottom: 22px;
+  width: 2px;
+  background: var(--color-border);
+}
+
+.step {
+  position: relative;
+  display: flex;
+  gap: 14px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--duration) var(--ease);
+}
+
+.step:hover {
+  background: var(--color-surface);
+}
+
+.current,
+.current:hover {
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-soft);
+}
+
+.stepDot {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 700;
+  transition: background-color 300ms var(--ease), border-color 300ms var(--ease), color 300ms var(--ease),
+    transform 300ms var(--ease);
+}
+
+.done .stepDot {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.current .stepDot {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  transform: scale(1.08);
+}
+
+.stepBody {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+  padding-top: 5px;
+}
+
+.stepTitle {
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-text-secondary);
+  transition: color var(--duration) var(--ease);
+}
+
+.current .stepTitle,
+.done .stepTitle {
+  color: var(--color-text);
+}
+
+/* Only the current step shows its sentence. */
+.stepText {
+  display: none;
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.current .stepText {
+  display: block;
+  animation: fade-up 320ms var(--ease) both;
+}
+
+.progress {
+  display: block;
+  height: 3px;
+  margin-top: 10px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--color-accent), #2dd4bf);
+  transform-origin: left center;
+  animation: fill var(--ms, 3400ms) linear both;
+}
+
+@keyframes fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding-left: 12px;
+}
+
+.control {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px 0 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--text-small);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--duration) var(--ease);
+}
+
+.control:hover {
+  border-color: var(--color-accent);
+}
+
+.control svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.control .solid {
+  fill: currentColor;
+}
+
+.counter {
+  margin-left: auto;
+  font-size: var(--text-tiny);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Stage ------------------------------------------------------------------------ */
+.stage {
+  position: relative;
+  min-height: 440px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  background-image: radial-gradient(color-mix(in srgb, var(--color-text) 9%, transparent) 1px, transparent 1px),
+    radial-gradient(600px 300px at 90% 0%, color-mix(in srgb, var(--color-accent) 14%, transparent), transparent 70%);
+  background-size: 18px 18px, 100% 100%;
+  overflow: hidden;
+}
+
+.example {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 3;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.panel {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 56px var(--space-4) var(--space-4);
+  opacity: 0;
+  transform: translateY(14px) scale(0.98);
+  transition: opacity 420ms var(--ease), transform 520ms var(--ease);
+  pointer-events: none;
+}
+
+.on {
+  opacity: 1;
+  transform: none;
+}
+
+.window {
+  position: relative;
+  width: min(100%, 380px);
+  display: grid;
+  gap: 12px;
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-lift);
+}
+
+.windowTitle {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.textLine {
+  display: block;
+  height: 8px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--color-text) 10%, transparent);
+}
+
+.meta {
+  display: block;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+/* 1. Form */
+.field {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+
+.fieldTall {
+  padding-bottom: 14px;
+}
+
+.fieldLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.typing {
+  display: block;
+  height: 9px;
+  width: 0;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--color-text) 22%, transparent);
+}
+
+.on .typing {
+  animation: type 1100ms steps(10, end) 250ms both;
+}
+
+@keyframes type {
+  to {
+    width: 42%;
+  }
+}
+
+.select {
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.send {
+  justify-self: start;
+  padding: 9px 16px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-size: var(--text-small);
+  font-weight: 600;
+}
+
+.on .send {
+  animation: press 300ms var(--ease) 2300ms both;
+}
+
+@keyframes press {
+  50% {
+    transform: scale(0.94);
+  }
+}
+
+.cursor {
+  position: absolute;
+  left: 70%;
+  top: 30%;
+  width: 18px;
+  height: 18px;
+  background: var(--color-text);
+  clip-path: polygon(0 0, 0 78%, 22% 60%, 38% 96%, 52% 90%, 37% 55%, 66% 55%);
+  opacity: 0;
+}
+
+.on .cursor {
+  animation: cursor-to-send 1400ms var(--ease) 900ms both;
+}
+
+@keyframes cursor-to-send {
+  0% {
+    opacity: 0;
+    left: 70%;
+    top: 30%;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    left: 24%;
+    top: 89%;
+  }
+}
+
+/* 2. Automatic reply */
+.mailHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.mailHead > span:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-weight: 700;
+}
+
+.check {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.on .mail {
+  animation: drop-in 520ms var(--ease) 150ms both;
+}
+
+.on .check {
+  animation: pop 360ms var(--ease) 800ms both;
+}
+
+/* 3. Team notified */
+.toast {
+  position: absolute;
+  top: 64px;
+  right: var(--space-3);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: calc(100% - 2 * var(--space-3));
+  padding: 12px 16px 12px 12px;
+  border-radius: 14px;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lift);
+}
+
+.on .toast {
+  animation: slide-in-right 520ms var(--ease) 200ms both;
+}
+
+.toastIcon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+.toastIcon svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform-origin: 50% 10%;
+}
+
+.on .toastIcon svg {
+  animation: ring 700ms ease-in-out 700ms 2;
+}
+
+.inbox {
+  margin-top: 72px;
+  gap: 4px;
+  padding: 10px;
+}
+
+.inboxRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.inboxRow .textLine {
+  flex: none;
+}
+
+.inboxDot {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--color-border);
+}
+
+.inboxNew {
+  background: var(--color-accent-soft);
+}
+
+.inboxNew .inboxDot {
+  background: var(--color-accent);
+}
+
+.on .inboxNew {
+  animation: drop-in 480ms var(--ease) 500ms both;
+}
+
+/* 4. Triage */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.on .tag {
+  animation: pop 360ms var(--ease) both;
+}
+
+.on .tag:nth-child(1) {
+  animation-delay: 200ms;
+}
+
+.on .tag:nth-child(2) {
+  animation-delay: 450ms;
+}
+
+.on .tag:nth-child(3) {
+  animation-delay: 700ms;
+}
+
+.draftLabel {
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.triage .textLine {
+  transform-origin: left center;
+}
+
+.on .triage .textLine {
+  animation: write 600ms var(--ease) both;
+}
+
+.on .triage .textLine:nth-of-type(1) {
+  animation-delay: 1000ms;
+}
+
+.on .triage .textLine:nth-of-type(2) {
+  animation-delay: 1400ms;
+}
+
+.on .triage .textLine:nth-of-type(3) {
+  animation-delay: 1800ms;
+}
+
+@keyframes write {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+/* 5. Calendar */
+.calHead,
+.calGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.calHead span {
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.calGrid {
+  position: relative;
+  grid-template-rows: repeat(3, 34px);
+}
+
+.slot {
+  border-radius: 8px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+}
+
+.busy {
+  background: color-mix(in srgb, var(--color-text) 8%, transparent);
+  border-color: transparent;
+}
+
+.booked {
+  grid-column: 3;
+  grid-row: 2;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.1;
+  padding: 0 4px;
+}
+
+.on .booked {
+  animation: pop 420ms var(--ease) 700ms both;
+}
+
+/* 6. Follow-up sequence */
+.seqRow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+.seqRow + .seqRow {
+  border-top: 1px dashed var(--color-border);
+}
+
+.seqMark {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 2px solid var(--color-accent);
+}
+
+.seqRow:first-child .seqMark {
+  background: var(--color-accent);
+}
+
+.seqLabel {
+  flex: 1;
+  font-weight: 600;
+}
+
+.seqState {
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+.on .seqRow {
+  animation: fade-up 420ms var(--ease) both;
+  animation-delay: calc(200ms + var(--d, 0ms));
+}
+
+/* 7. Pipeline */
+.board {
+  position: relative;
+  width: min(100%, 440px);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  padding: 14px;
+}
+
+.column {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-height: 112px;
+  padding: 8px;
+  border-radius: 10px;
+  background: var(--color-bg);
+}
+
+.columnName {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.column:last-of-type .columnName {
+  color: var(--color-accent);
+}
+
+.ghost {
+  height: 34px;
+  border-radius: 8px;
+  border: 1px dashed var(--color-border);
+}
+
+/* The lead card travels one column at a time and lands in "Won". Its width is
+   one column minus the column padding; one column step is that width plus 24px
+   (16px column padding and the 8px gap). */
+.card {
+  position: absolute;
+  top: 48px;
+  left: 22px;
+  width: calc((100% - 28px - 24px) / 4 - 16px);
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-accent);
+  box-shadow: var(--shadow-lift);
+  transform: translateX(calc(3 * (100% + 24px)));
+}
+
+.cardLine {
+  display: block;
+  height: 7px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--color-text) 18%, transparent);
+}
+
+.cardLineShort {
+  width: 60%;
+  background: color-mix(in srgb, var(--color-accent) 35%, transparent);
+}
+
+/* A tick appears once the card reaches "Won". */
+.cardCheck {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.on .cardCheck {
+  animation: pop 360ms var(--ease) 2800ms both;
+}
+
+.on .card {
+  animation: travel 2600ms var(--ease) 300ms both;
+}
+
+@keyframes travel {
+  0%,
+  12% {
+    transform: translateX(0);
+  }
+  32%,
+  42% {
+    transform: translateX(calc(100% + 24px));
+  }
+  62%,
+  72% {
+    transform: translateX(calc(2 * (100% + 24px)));
+  }
+  92%,
+  100% {
+    transform: translateX(calc(3 * (100% + 24px)));
+  }
+}
+
+/* Shared motion -------------------------------------------------------------- */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes drop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  70% {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes ring {
+  20% {
+    transform: rotate(14deg);
+  }
+  40% {
+    transform: rotate(-12deg);
+  }
+  60% {
+    transform: rotate(8deg);
+  }
+  80% {
+    transform: rotate(-4deg);
+  }
+}
+
+@media (max-width: 860px) {
+  .demo {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+  .stage {
+    order: -1;
+    min-height: 380px;
+  }
+}
+
+@media (max-width: 480px) {
+  .panel {
+    padding: 52px var(--space-2) var(--space-2);
+  }
+  .window {
+    padding: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    transition: none;
+    transform: none;
+  }
+  .progress {
+    display: none;
+  }
+}

@@ -1,0 +1,32 @@
+.wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.clamped {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--lines, 4);
+  line-clamp: var(--lines, 4);
+  overflow: hidden;
+}
+
+.toggle {
+  margin-top: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--color-accent);
+  cursor: pointer;
+}
+
+.toggle:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

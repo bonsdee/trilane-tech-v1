@@ -1,0 +1,10 @@
+Hi {{name}},
+
+You've been invited to the Trilane Tech dashboard, where the team manages leads and website content.
+
+Set your password here (the link works once and expires in {{validFor}}):
+{{link}}
+
+If you weren't expecting this, you can ignore this email.
+
+Trilane Tech

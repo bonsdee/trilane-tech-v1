@@ -1,0 +1,144 @@
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.stat {
+  padding: var(--space-3);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-raised);
+  display: grid;
+  gap: 4px;
+  color: var(--color-text);
+}
+
+.statLink {
+  transition: transform var(--duration) var(--ease), box-shadow var(--duration) var(--ease);
+}
+
+.statLink:hover {
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
+}
+
+.statLabel {
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+}
+
+.statValue {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.danger {
+  color: var(--color-danger);
+}
+
+.statSub {
+  font-size: var(--text-tiny);
+  color: var(--color-text-secondary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.panel {
+  padding: var(--space-3);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-raised);
+}
+
+.bars,
+.overdueList {
+  list-style: none;
+  margin: var(--space-1) 0 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.barRow {
+  display: grid;
+  grid-template-columns: minmax(90px, 160px) 1fr 36px;
+  gap: var(--space-2);
+  align-items: center;
+  padding: 6px 8px;
+  margin: 0 -8px;
+  border-radius: 10px;
+  color: var(--color-text);
+  font-size: var(--text-small);
+}
+
+.barRow:hover {
+  text-decoration: none;
+  background: var(--color-surface);
+}
+
+.barLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.barTrack {
+  height: 8px;
+  border-radius: 8px;
+  background: var(--color-surface);
+  overflow: hidden;
+}
+
+.barFill {
+  display: block;
+  height: 100%;
+  border-radius: 8px;
+  background: var(--color-accent);
+  min-width: 2px;
+}
+
+.barCount {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.overdueItem {
+  display: grid;
+  padding: 8px;
+  margin: 0 -8px;
+  border-radius: 10px;
+}
+
+.overdueItem:hover {
+  text-decoration: none;
+  background: var(--color-surface);
+}
+
+@media (max-width: 1100px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 420px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+}

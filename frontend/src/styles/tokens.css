@@ -1,0 +1,106 @@
+/* Design tokens. Light is the default; dark applies when the device asks for it
+   (unless the visitor chose light) or when the visitor chose dark. */
+:root {
+  --color-bg: #ffffff;
+  --color-surface: #f5f6f7;
+  --color-surface-raised: #ffffff;
+  --color-text: #111417;
+  --color-text-secondary: #5b6570;
+  --color-accent: #0f766e;
+  --color-accent-hover: #0c625b;
+  --color-accent-contrast: #ffffff;
+  --color-accent-soft: rgba(15, 118, 110, 0.1);
+  --color-border: #e3e6e9;
+  --color-danger: #b42318;
+  --color-danger-soft: rgba(180, 35, 24, 0.08);
+  --color-warning: #8a4b00;
+  --color-warning-soft: rgba(181, 71, 8, 0.1);
+  --color-success: #0f766e;
+  --color-overlay: rgba(14, 17, 19, 0.45);
+  --color-header: rgba(255, 255, 255, 0.78);
+  --shadow-soft: 0 1px 2px rgba(17, 20, 23, 0.04), 0 8px 24px rgba(17, 20, 23, 0.05);
+  --shadow-lift: 0 2px 4px rgba(17, 20, 23, 0.05), 0 16px 40px rgba(17, 20, 23, 0.08);
+  --hero-gradient: radial-gradient(1200px 520px at 80% -10%, rgba(45, 212, 191, 0.18), transparent 60%),
+    radial-gradient(900px 480px at -10% 10%, rgba(15, 118, 110, 0.1), transparent 60%);
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --text-body: 17px;
+  --text-small: 15px;
+  --text-tiny: 13px;
+  --leading-body: 1.6;
+
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 40px;
+  --space-6: 48px;
+  --space-8: 64px;
+  --space-10: 80px;
+  --space-12: 96px;
+  --space-16: 128px;
+
+  --radius-card: 20px;
+  --radius-field: 12px;
+  --radius-pill: 999px;
+  --content-width: 1120px;
+  --header-height: 64px;
+
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration: 220ms;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg: #0e1113;
+    --color-surface: #171b1e;
+    --color-surface-raised: #1c2125;
+    --color-text: #f2f4f5;
+    --color-text-secondary: #a3adb7;
+    --color-accent: #2dd4bf;
+    --color-accent-hover: #5eead4;
+    --color-accent-contrast: #0e1113;
+    --color-accent-soft: rgba(45, 212, 191, 0.12);
+    --color-border: #262c31;
+    --color-danger: #f97066;
+    --color-danger-soft: rgba(249, 112, 102, 0.12);
+    --color-warning: #fdb022;
+    --color-warning-soft: rgba(253, 176, 34, 0.12);
+    --color-success: #2dd4bf;
+    --color-overlay: rgba(0, 0, 0, 0.6);
+    --color-header: rgba(14, 17, 19, 0.72);
+    --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+    --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.35), 0 16px 40px rgba(0, 0, 0, 0.35);
+    --hero-gradient: radial-gradient(1200px 520px at 80% -10%, rgba(45, 212, 191, 0.14), transparent 60%),
+      radial-gradient(900px 480px at -10% 10%, rgba(15, 118, 110, 0.18), transparent 60%);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --color-bg: #0e1113;
+  --color-surface: #171b1e;
+  --color-surface-raised: #1c2125;
+  --color-text: #f2f4f5;
+  --color-text-secondary: #a3adb7;
+  --color-accent: #2dd4bf;
+  --color-accent-hover: #5eead4;
+  --color-accent-contrast: #0e1113;
+  --color-accent-soft: rgba(45, 212, 191, 0.12);
+  --color-border: #262c31;
+  --color-danger: #f97066;
+  --color-danger-soft: rgba(249, 112, 102, 0.12);
+  --color-warning: #fdb022;
+  --color-warning-soft: rgba(253, 176, 34, 0.12);
+  --color-success: #2dd4bf;
+  --color-overlay: rgba(0, 0, 0, 0.6);
+  --color-header: rgba(14, 17, 19, 0.72);
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.35), 0 16px 40px rgba(0, 0, 0, 0.35);
+  --hero-gradient: radial-gradient(1200px 520px at 80% -10%, rgba(45, 212, 191, 0.14), transparent 60%),
+    radial-gradient(900px 480px at -10% 10%, rgba(15, 118, 110, 0.18), transparent 60%);
+  color-scheme: dark;
+}

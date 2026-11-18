@@ -1,0 +1,50 @@
+.state {
+  text-align: center;
+  padding: var(--space-6) var(--space-3);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.title {
+  font-weight: 600;
+}
+
+.text {
+  margin-top: 6px;
+  color: var(--color-text-secondary);
+  font-size: var(--text-small);
+}
+
+.action {
+  margin-top: var(--space-2);
+}
+
+.error {
+  border-style: solid;
+  border-color: var(--color-danger-soft);
+  background: var(--color-danger-soft);
+}
+
+.notice {
+  padding: 12px 16px;
+  border-radius: var(--radius-field);
+  font-size: var(--text-small);
+  border: 1px solid transparent;
+}
+
+.info {
+  background: var(--color-accent-soft);
+  color: var(--color-text);
+}
+
+.success {
+  background: var(--color-accent-soft);
+  color: var(--color-text);
+  border-color: var(--color-accent);
+}
+
+.danger {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}

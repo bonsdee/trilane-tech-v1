@@ -1,0 +1,44 @@
+.spinner {
+  display: inline-flex;
+}
+
+.ring {
+  display: block;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: spin 0.7s linear infinite;
+  opacity: 0.8;
+}
+
+.sm .ring {
+  width: 14px;
+  height: 14px;
+}
+
+.md .ring {
+  width: 22px;
+  height: 22px;
+}
+
+.block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-8) var(--space-2);
+  color: var(--color-text-secondary);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring {
+    animation-duration: 1.5s !important;
+    animation-iteration-count: infinite !important;
+  }
+}

@@ -1,0 +1,8 @@
+# Local development. Pairs with docker-compose.yml (PostgreSQL + Mailpit).
+app:
+  auth:
+    cookie-secure: ${AUTH_COOKIE_SECURE:false}
+
+logging:
+  level:
+    com.trilanetech: DEBUG

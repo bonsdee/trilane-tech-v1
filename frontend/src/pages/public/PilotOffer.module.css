@@ -1,0 +1,132 @@
+.pilot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.card {
+  padding: var(--space-5);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-tiny);
+  font-weight: 700;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--space-1);
+}
+
+.live {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 0 currentColor;
+  animation: live 2s ease-out infinite;
+}
+
+.title {
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.was {
+  font-size: 0.6em;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.text {
+  margin-top: var(--space-1);
+  color: var(--color-text-secondary);
+  max-width: 560px;
+}
+
+/* Full-width dark band. Uses fixed dark colours in both themes. */
+.band {
+  --color-text: #f2f4f5;
+  --color-text-secondary: #a3adb7;
+  --color-accent: #2dd4bf;
+  --color-accent-hover: #5eead4;
+  --color-accent-contrast: #0e1113;
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-12) 0;
+  background: #0e1113;
+  color: var(--color-text);
+  border-top: 1px solid #262c31;
+  border-bottom: 1px solid #262c31;
+}
+
+.band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -24deg,
+    transparent 0 46px,
+    rgba(45, 212, 191, 0.06) 46px 48px
+  );
+  mask-image: linear-gradient(90deg, transparent 30%, #000 100%);
+  pointer-events: none;
+}
+
+.band .pilot {
+  position: relative;
+}
+
+.band .title {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+/* In dark mode the page is already near-black, so the band takes a deep teal tint. */
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme='light'])) .band {
+    background: linear-gradient(120deg, #0b2f2b 0%, #0e1a1b 55%, #0e1113 100%);
+    border-color: #1d4a44;
+  }
+}
+
+:global(:root[data-theme='dark']) .band {
+  background: linear-gradient(120deg, #0b2f2b 0%, #0e1a1b 55%, #0e1113 100%);
+  border-color: #1d4a44;
+}
+
+@media (max-width: 760px) {
+  .pilot {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .card {
+    padding: var(--space-3);
+  }
+  .band {
+    padding: var(--space-8) 0;
+  }
+}
+
+@keyframes live {
+  0% {
+    box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 0 8px rgba(45, 212, 191, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live {
+    animation: none;
+  }
+}

@@ -1,0 +1,235 @@
+.group {
+  padding: var(--space-10) 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.groupSurface {
+  background: var(--color-surface);
+}
+
+.groupHead {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.groupNumber {
+  font-size: var(--text-small);
+  font-weight: 700;
+  color: var(--color-accent);
+  padding: 4px 12px;
+  border: 1px solid var(--color-accent);
+  border-radius: 999px;
+  margin-top: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.groupTitle {
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  margin-bottom: 6px;
+}
+
+.pilotWrap {
+  margin-bottom: var(--space-3);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-3);
+  align-items: stretch;
+}
+
+.grid > * {
+  display: flex;
+}
+
+.card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-soft);
+  scroll-margin-top: calc(var(--header-height) + var(--space-3));
+  transition: box-shadow var(--duration) var(--ease), transform var(--duration) var(--ease);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lift);
+}
+
+.featured {
+  --sheen-color: color-mix(in srgb, var(--color-accent) 14%, transparent);
+  position: relative;
+  border: 2px solid var(--color-accent);
+  box-shadow: 0 0 0 6px var(--color-accent-soft), var(--shadow-lift);
+  transform: translateY(-4px);
+}
+
+.featured:hover {
+  box-shadow: 0 0 0 6px var(--color-accent-soft), var(--shadow-lift);
+}
+
+.ribbon {
+  align-self: flex-start;
+  margin: calc(-1 * var(--space-4)) 0 0;
+  padding: 6px 14px;
+  border-radius: 0 0 12px 12px;
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-size: var(--text-tiny);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.card:target {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 4px var(--color-accent-soft);
+}
+
+.cardHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1);
+}
+
+.name {
+  font-size: 1.35rem;
+}
+
+.price {
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.saving {
+  margin-top: -8px;
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+}
+
+.facts {
+  margin: 0;
+  display: grid;
+  gap: 6px;
+  font-size: var(--text-small);
+}
+
+.facts div {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: var(--space-1);
+}
+
+.facts dt {
+  color: var(--color-text-secondary);
+}
+
+.facts dd {
+  margin: 0;
+}
+
+.summary {
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+}
+
+.listBlock {
+  display: grid;
+  gap: 8px;
+}
+
+.listTitle {
+  font-size: var(--text-tiny);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-secondary);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  font-size: var(--text-small);
+}
+
+.list li {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  gap: 10px;
+  align-items: start;
+}
+
+.listMuted {
+  color: var(--color-text-secondary);
+}
+
+.icon {
+  color: var(--color-accent);
+  margin-top: 4px;
+}
+
+.iconMuted {
+  color: var(--color-text-secondary);
+  margin-top: 4px;
+}
+
+.cardAction {
+  margin-top: auto;
+  padding-top: var(--space-2);
+}
+
+.cardAction > * {
+  width: 100%;
+  white-space: normal;
+  text-align: center;
+}
+
+.note {
+  margin-top: var(--space-3);
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 720px) {
+  .card {
+    padding: var(--space-3);
+  }
+  .ribbon {
+    margin-top: calc(-1 * var(--space-3));
+  }
+  .group {
+    padding: var(--space-8) 0;
+  }
+  .groupHead {
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .groupNumber {
+    margin-top: 0;
+  }
+}
+
+/* Placeholder shown while the services load. */
+.skeleton {
+  display: grid;
+  gap: 14px;
+  padding: var(--space-10) 0;
+}
+
+.skeleton .grid {
+  margin-top: var(--space-4);
+}

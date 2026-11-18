@@ -1,0 +1,261 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--header-height);
+  background: var(--color-header);
+  backdrop-filter: saturate(180%) blur(18px);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--duration) var(--ease), height 260ms var(--ease), margin-bottom 260ms var(--ease),
+    box-shadow var(--duration) var(--ease);
+}
+
+.scrolled {
+  border-bottom-color: var(--color-border);
+}
+
+/* On wider screens the bar slims down once the page is scrolled. The bottom
+   margin makes up the difference, so nothing below it moves. */
+@media (min-width: 861px) {
+  .compact {
+    height: 56px;
+    margin-bottom: 8px;
+    box-shadow: 0 6px 24px rgba(17, 20, 23, 0.06);
+  }
+}
+
+.headerInner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.brand {
+  display: inline-flex;
+}
+
+.brand:hover {
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.navLink {
+  position: relative;
+  color: var(--color-text-secondary);
+  font-size: var(--text-small);
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
+  transition: color var(--duration) var(--ease), background-color var(--duration) var(--ease);
+}
+
+.navLink:hover {
+  color: var(--color-text);
+  text-decoration: none;
+  background: var(--color-surface);
+}
+
+.active {
+  color: var(--color-text);
+}
+
+/* Teal underline under the current page, drawn in when the page changes. */
+.active::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 2px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-accent);
+  transform-origin: left center;
+  animation: underline-in 360ms var(--ease) both;
+}
+
+@keyframes underline-in {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.menuButton {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+}
+
+.burger,
+.burger::before,
+.burger::after {
+  position: absolute;
+  left: 10px;
+  width: 20px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-text);
+  transition: transform var(--duration) var(--ease), opacity var(--duration) var(--ease);
+  content: '';
+}
+
+.burger {
+  top: 19px;
+}
+
+.burger::before {
+  left: 0;
+  top: -6px;
+}
+
+.burger::after {
+  left: 0;
+  top: 6px;
+}
+
+.burgerOpen {
+  background: transparent;
+}
+
+.burgerOpen::before {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.burgerOpen::after {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.mobileMenu {
+  position: fixed;
+  inset: var(--header-height) 0 0 0;
+  background: var(--color-bg);
+  z-index: 49;
+  padding: var(--space-3);
+  overflow-y: auto;
+}
+
+.mobileOpen {
+  animation: menu-in 260ms var(--ease) both;
+}
+
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileLink {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.mobileLink:hover {
+  text-decoration: none;
+  color: var(--color-accent);
+}
+
+.main {
+  min-height: calc(100dvh - var(--header-height) - 200px);
+}
+
+.footer {
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+  padding: var(--space-8) 0 var(--space-4);
+  margin-top: var(--space-8);
+}
+
+.footerInner {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.footerBrand {
+  display: grid;
+  gap: var(--space-1);
+  max-width: 340px;
+  font-size: var(--text-small);
+}
+
+.footerNav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(140px, auto));
+  gap: 10px var(--space-4);
+  font-size: var(--text-small);
+}
+
+.footerNav a {
+  color: var(--color-text-secondary);
+}
+
+.footerNav a:hover {
+  color: var(--color-text);
+}
+
+.linkButton {
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font-size: var(--text-small);
+}
+
+.linkButton:hover {
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+.footerBottom {
+  margin-top: var(--space-6);
+  font-size: var(--text-tiny);
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 860px) {
+  .nav {
+    display: none;
+  }
+  .menuButton {
+    display: inline-block;
+  }
+}
+
+@media (max-width: 420px) {
+  .headerCta {
+    display: none;
+  }
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

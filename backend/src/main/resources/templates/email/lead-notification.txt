@@ -1,0 +1,15 @@
+New lead: {{name}}
+
+Email:         {{email}}
+Phone:         {{phone}}
+Company:       {{company}}
+Website:       {{website}}
+Interested in: {{service}}
+Came from:     {{source}}
+
+Message:
+{{message}}
+
+Open in dashboard: {{dashboardLink}}
+
+Reply to this email to answer {{name}} directly.

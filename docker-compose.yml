@@ -1,0 +1,33 @@
+# Local development services: PostgreSQL and Mailpit (a mail catcher).
+# Start with:  docker compose up -d
+# Values come from the .env file in this folder (copy .env.example to .env).
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: trilane-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-trilane}
+      POSTGRES_USER: ${DB_USERNAME:-trilane}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env (copy .env.example to .env)}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - trilane-pgdata:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-trilane} -d ${POSTGRES_DB:-trilane}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: trilane-mailpit
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:1025:1025"   # SMTP, used by the backend
+      - "127.0.0.1:8025:8025"   # Web inbox: http://localhost:8025
+
+volumes:
+  trilane-pgdata:

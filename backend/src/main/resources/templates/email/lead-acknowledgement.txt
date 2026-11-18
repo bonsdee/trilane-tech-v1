@@ -1,0 +1,12 @@
+Hi {{name}},
+
+Thanks for reaching out. This is a quick note to confirm that your message reached Trilane Tech. One of the team will read it and reply to this address personally.
+
+What you sent us
+Interested in: {{service}}
+
+{{message}}
+
+If you think of anything to add, just reply to this email.
+
+Trilane Tech

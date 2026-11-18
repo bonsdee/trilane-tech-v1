@@ -1,0 +1,15 @@
+# Production. Activate with SPRING_PROFILES_ACTIVE=prod.
+# JWT_SECRET, DB_*, MAIL_*, SITE_URL, ADMIN_* and UPLOAD_DIR must be set as
+# environment variables on the host. The app refuses to start without JWT_SECRET.
+server:
+  # Trust X-Forwarded-* headers from the hosting provider's proxy so client
+  # addresses (used by the contact form limiter) and HTTPS are detected.
+  forward-headers-strategy: native
+
+app:
+  auth:
+    cookie-secure: ${AUTH_COOKIE_SECURE:true}
+
+logging:
+  level:
+    com.trilanetech: INFO

@@ -1,0 +1,30 @@
+# Automated tests run against a real PostgreSQL database named trilane_test
+# (created by docker-compose via database/init). Override with TEST_DB_URL.
+# The schema is wiped and re-created before every test, so never point this
+# at a database whose data you want to keep.
+spring:
+  datasource:
+    url: ${TEST_DB_URL:jdbc:postgresql://localhost:5432/trilane_test}
+  flyway:
+    clean-disabled: false
+
+app:
+  site-url: http://localhost:5173
+  cors-allowed-origins: http://localhost:5173
+  timezone: Asia/Manila
+  jwt:
+    # Empty: a random secret is generated for each test run.
+    secret: ""
+  admin:
+    email: ""
+    name: ""
+  mail:
+    from: "Trilane Tech <team@example.com>"
+    lead-notification-to: team@example.com
+  uploads:
+    dir: ${java.io.tmpdir}/trilane-test-uploads
+
+logging:
+  level:
+    com.trilanetech: INFO
+    http: WARN
