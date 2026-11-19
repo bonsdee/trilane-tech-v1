@@ -102,7 +102,7 @@ function Footer() {
     <footer className={styles.footer}>
       <div className={`container ${styles.footerInner}`}>
         <div className={styles.footerBrand}>
-          <Logo />
+          <Logo variant="tagline" className={styles.footerLogo} />
           <p className="muted">Websites that bring in leads, and the hands to follow them up.</p>
         </div>
         <nav aria-label="Footer" className={styles.footerNav}>

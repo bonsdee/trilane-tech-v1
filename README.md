@@ -31,6 +31,7 @@ trilane-tech/
 ├── backend/             Spring Boot API, Flyway migrations, email templates, tests, Dockerfile
 ├── database/            Docker init script (creates the test database)
 ├── documentation/       SRS, API documentation, database design, setup guide
+├── branding/            Logo files (SVG, PNG), icons, Orbitron font and brand rules
 ├── docker-compose.yml   Local PostgreSQL and Mailpit
 ├── .env.example         Backend and Docker settings (copy to .env)
 └── README.md
@@ -44,6 +45,7 @@ trilane-tech/
 | [API_DOCUMENTATION.md](documentation/API_DOCUMENTATION.md) | Every endpoint, request and response format, error codes |
 | [DATABASE_DESIGN.md](documentation/DATABASE_DESIGN.md) | Tables, relationships, indexes, seed content, backups |
 | [SRS.md](documentation/SRS.md) | The approved specification, plus implementation notes |
+| [branding/README.md](branding/README.md) | Logo versions, colours, typeface and usage rules |
 
 ## What was tested before delivery
 

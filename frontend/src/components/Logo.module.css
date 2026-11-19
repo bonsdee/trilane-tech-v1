@@ -1,29 +1,75 @@
+/* Brand colours from branding/README.md. Light backgrounds first, then dark. */
 .logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--color-text);
+  --logo-bar-left: #0f766e;
+  --logo-bar-right: #14b8a6;
+  --logo-stem: #134e4a;
+  --logo-name: #0e1113;
+  --logo-tech: #0f766e;
+  --logo-tag: #4b5563;
+  display: block;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme='light'])) .logo {
+    --logo-bar-left: #2dd4bf;
+    --logo-bar-right: #99f6e4;
+    --logo-stem: #14b8a6;
+    --logo-name: #f5f7f7;
+    --logo-tech: #5eead4;
+    --logo-tag: #a9b6b3;
+  }
+}
+
+:global(:root[data-theme='dark']) .logo {
+  --logo-bar-left: #2dd4bf;
+  --logo-bar-right: #99f6e4;
+  --logo-stem: #14b8a6;
+  --logo-name: #f5f7f7;
+  --logo-tech: #5eead4;
+  --logo-tag: #a9b6b3;
+}
+
+.barLeft {
+  fill: var(--logo-bar-left);
+}
+
+.barRight {
+  fill: var(--logo-bar-right);
+}
+
+.stem {
+  fill: var(--logo-stem);
+}
+
+.name {
+  fill: var(--logo-name);
+}
+
+.tech {
+  fill: var(--logo-tech);
+}
+
+.tag {
+  fill: var(--logo-tag);
+}
+
+/* Default sizes. The horizontal logo's minimum on screen is 24px tall. */
+.horizontal {
+  height: 26px;
+  width: auto;
+  aspect-ratio: 424.89 / 56;
+}
+
+.tagline {
+  height: 44px;
+  width: auto;
+  aspect-ratio: 416.57 / 48.64;
 }
 
 .mark {
-  width: 28px;
   height: 28px;
-  flex-shrink: 0;
-}
-
-.mark rect {
-  fill: var(--color-accent);
-}
-
-.mark path {
-  stroke: var(--color-accent-contrast);
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  fill: none;
-}
-
-.word {
-  font-weight: 700;
-  font-size: 17px;
-  letter-spacing: -0.02em;
+  width: auto;
+  aspect-ratio: 52 / 46;
 }

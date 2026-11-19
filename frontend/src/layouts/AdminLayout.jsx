@@ -36,7 +36,7 @@ export default function AdminLayout() {
       </a>
       <aside className={styles.sidebar}>
         <Link to="/admin" className={styles.brand}>
-          <Logo />
+          <Logo className={styles.sidebarLogo} />
         </Link>
         <nav aria-label="Dashboard" className={styles.nav}>
           {NAV.map((item) => (

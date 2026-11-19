@@ -25,6 +25,11 @@
   text-decoration: none;
 }
 
+/* Fits the 240px sidebar; still above the 24px minimum size. */
+.brand .sidebarLogo {
+  height: 24px;
+}
+
 .nav {
   display: flex;
   flex-direction: column;
