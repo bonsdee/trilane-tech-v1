@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { errorMessage, fieldErrors } from '../../api/client';
-import { getPilotSettings, updatePilotSettings } from '../../api/site';
+import { getBookingSettings, getPilotSettings, updateBookingSettings, updatePilotSettings } from '../../api/site';
 import Badge from '../../components/Badge';
 import Button from '../../components/Button';
 import Field, { Checkbox } from '../../components/Field';
@@ -51,10 +51,11 @@ export default function SettingsAdmin() {
       <div className={a.pageHead}>
         <div>
           <h1 className={a.pageTitle}>Settings</h1>
-          <p className={a.pageIntro}>Pilot offer for the {data.serviceName || 'Launch Bundle'}.</p>
+          <p className={a.pageIntro}>Booking link and the pilot offer for the {data.serviceName || 'Launch Bundle'}.</p>
         </div>
       </div>
-      <form onSubmit={save} noValidate className={`${a.itemCard} ${a.stack}`} style={{ maxWidth: 560 }}>
+      <BookingSettings />
+      <form onSubmit={save} noValidate className={`${a.itemCard} ${a.stack}`} style={{ maxWidth: 560, marginTop: 'var(--space-3)' }}>
         <div className={a.itemHead}>
           <h2 className={a.sectionTitle}>Pilot offer</h2>
           {data.live ? <Badge tone="success">Showing on the website</Badge> : <Badge>Not showing</Badge>}
@@ -77,5 +78,80 @@ export default function SettingsAdmin() {
         </div>
       </form>
     </>
+  );
+}
+
+/** The shared booking page behind every "Book a call" button. Empty hides the buttons. */
+function BookingSettings() {
+  const { data, loading, error, reload, setData } = useFetch(getBookingSettings, []);
+  const [url, setUrl] = useState('');
+  const [fieldError, setFieldError] = useState(null);
+  const [message, setMessage] = useState(null);
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    if (data) setUrl(data.url || '');
+  }, [data]);
+
+  if (loading) return <LoadingBlock label="Loading booking link…" />;
+  if (error) return <ErrorState error={error} onRetry={reload} />;
+
+  const save = async (event) => {
+    event.preventDefault();
+    setMessage(null);
+    const value = url.trim();
+    if (value && !/^https:\/\/\S+$/.test(value)) {
+      setFieldError('Enter a full address starting with https://');
+      return;
+    }
+    setFieldError(null);
+    setBusy(true);
+    try {
+      const saved = await updateBookingSettings({ url: value });
+      setData(saved);
+      setMessage({ tone: 'success', text: value ? 'Saved. "Book a call" now shows on the Home and Contact pages.' : 'Saved. The "Book a call" buttons are hidden.' });
+    } catch (e) {
+      setFieldError(fieldErrors(e).url || null);
+      setMessage({ tone: 'danger', text: errorMessage(e) });
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <form onSubmit={save} noValidate className={`${a.itemCard} ${a.stack}`} style={{ maxWidth: 560 }}>
+      <div className={a.itemHead}>
+        <h2 className={a.sectionTitle}>Booking link</h2>
+        {data?.url ? <Badge tone="success">Showing on the website</Badge> : <Badge>Not showing</Badge>}
+      </div>
+      <p className={a.muted}>
+        Paste the link to your shared booking page, for example a Google Calendar appointment schedule or a Calendly or Cal.com page.
+        Visitors see a "Book a call" button on the Home and Contact pages. Leave it empty to hide the button.
+      </p>
+      <Field
+        label="Booking page link"
+        type="url"
+        inputMode="url"
+        placeholder="https://calendar.app.google/…"
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
+        error={fieldError}
+        maxLength={500}
+      />
+      {data?.url && (
+        <p className={a.muted}>
+          Current link:{' '}
+          <a href={data.url} target="_blank" rel="noopener noreferrer">
+            open the booking page
+          </a>
+        </p>
+      )}
+      {message && <Notice tone={message.tone}>{message.text}</Notice>}
+      <div>
+        <Button type="submit" loading={busy}>
+          Save booking link
+        </Button>
+      </div>
+    </form>
   );
 }

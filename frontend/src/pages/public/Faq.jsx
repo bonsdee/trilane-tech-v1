@@ -15,7 +15,7 @@ export default function Faq() {
     description: 'Answers about timelines, revisions, content, hosting, support and pricing at Trilane Tech.',
     path: '/faq',
   });
-  const { data, loading, error, reload } = useFetch(getPublicFaqs, []);
+  const { data, loading, error, reload } = useFetch(getPublicFaqs, [], { seed: 'faqs' });
   return (
     <>
       <PageHeader eyebrow="FAQ" title="Questions, answered.">

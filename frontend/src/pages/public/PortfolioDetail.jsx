@@ -37,11 +37,20 @@ export default function PortfolioDetail() {
           ← All projects
         </Link>
         <Reveal className={styles.detailHead}>
-          {project.serviceName && <p className={styles.service}>{project.serviceName}</p>}
+          {(project.concept || project.serviceName) && (
+            <p className={styles.service}>
+              {project.concept && <span className={styles.concept}>Concept</span>}
+              {project.serviceName}
+            </p>
+          )}
           <h1>{project.title}</h1>
           {project.summary && <p className="lead">{project.summary}</p>}
           <div className={styles.meta}>
-            {project.clientName && <span>Client: {project.clientName}</span>}
+            {project.concept ? (
+              <span>Concept project: built to show our approach, not for a client.</span>
+            ) : (
+              project.clientName && <span>Client: {project.clientName}</span>
+            )}
             {project.completedOn && <span>Completed {formatDate(project.completedOn)}</span>}
           </div>
         </Reveal>

@@ -118,7 +118,7 @@ Published team profiles.
 
 ### `GET /public/portfolio`
 
-Published projects (summary form): `id, slug, title, clientName, summary, serviceId, serviceName, serviceSlug, coverFileId, coverUrl, completedOn, displayOrder, published`.
+Published projects (summary form): `id, slug, title, clientName, summary, serviceId, serviceName, serviceSlug, coverFileId, coverUrl, completedOn, displayOrder, published, concept`. `concept` is true for work built to show skills rather than for a client; the site labels it "Concept".
 
 ### `GET /public/portfolio/{slug}`
 
@@ -141,12 +141,13 @@ Published FAQ entries: `[{ id, question, answer, displayOrder, published }]`.
       "serviceSlug": "launch-bundle",
       "serviceName": "Launch Bundle"
     },
-    "portfolioVisible": false
+    "portfolioVisible": false,
+    "bookingUrl": "https://calendar.app.google/…"
   }
 }
 ```
 
-`pilot.active` is true only when the offer is switched on, at least one spot remains and the Launch Bundle is published. When inactive, the other pilot fields are null. `portfolioVisible` is true once at least one project is published.
+`pilot.active` is true only when the offer is switched on, at least one spot remains and the Launch Bundle is published. When inactive, the other pilot fields are null. `portfolioVisible` is true once at least one project is published. `bookingUrl` is the shared booking page behind the "Book a call" buttons, or null when none is set.
 
 ### `POST /public/leads`
 
@@ -368,6 +369,7 @@ Body:
   "completedOn": "2026-10-30",
   "displayOrder": 1,
   "published": true,
+  "concept": false,
   "images": [ { "fileId": 5, "altText": "Home page on a phone" } ]
 }
 ```
@@ -384,6 +386,11 @@ Body: `{ "question" (≤300), "answer" (≤5,000), "displayOrder", "published" }
 
 - `GET /admin/settings/pilot`: `{ enabled, price, spotsRemaining, serviceName, regularPrice, live }`
 - `PUT /admin/settings/pilot` with `{ "enabled": true, "price": 2900, "spotsRemaining": 5 }` (spots 0–1,000)
+
+### Booking link
+
+- `GET /admin/settings/booking`: `{ url }` (empty string when none is set)
+- `PUT /admin/settings/booking` with `{ "url": "https://calendar.app.google/…" }`. The address must start with `https://` (at most 500 characters). Send `""` to hide the "Book a call" buttons.
 
 ### Users
 

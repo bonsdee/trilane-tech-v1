@@ -21,10 +21,12 @@ export default function Portfolio() {
   // The portfolio stays hidden until the first project is published.
   if (site && !site.portfolioVisible) return <NotFound />;
 
+  const hasConcepts = (data || []).some((p) => p.concept);
   return (
     <>
       <PageHeader eyebrow="Portfolio" title="Selected work.">
-        A look at projects we've delivered and what they set out to do.
+        A look at our work and what each project set out to do.
+        {hasConcepts && ' Projects marked "Concept" were built to show our approach, not for a client.'}
       </PageHeader>
       <div className="container">
         {loading && (
@@ -57,7 +59,12 @@ export default function Portfolio() {
                   )}
                 </div>
                 <div className={styles.body}>
-                  {p.serviceName && <p className={styles.service}>{p.serviceName}</p>}
+                  {(p.concept || p.serviceName) && (
+                    <p className={styles.service}>
+                      {p.concept && <span className={styles.concept}>Concept</span>}
+                      {p.serviceName}
+                    </p>
+                  )}
                   <h2 className={styles.title}>{p.title}</h2>
                   {p.clientName && <p className="muted">{p.clientName}</p>}
                   {p.summary && <p className={styles.summary}>{p.summary}</p>}

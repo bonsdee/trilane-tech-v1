@@ -7,8 +7,9 @@ PostgreSQL 16. The schema is created and versioned by Flyway; the SQL lives in `
 | `V1__create_schema.sql` | All 13 tables, constraints and indexes |
 | `V2__seed_content.sql` | 8 services with 43 inclusions/exclusions, the pilot offer settings, 3 team profiles (names only) and 12 FAQ entries |
 | `V3__team_bios.sql` | Full names, roles and bios for the three team profiles (skipped for any profile already edited in the dashboard) |
+| `V4__revisions_concepts_booking_location.sql` | Website revisions 1.0: `portfolio_projects.is_concept`, the `booking.url` setting, the pilot offer switched off with its FAQ hidden, and a FAQ on location and hours |
 
-Flyway runs automatically when the backend starts. To change the schema later, add a new file such as `V4__add_testimonials.sql`; never edit a migration that has already run in production.
+Flyway runs automatically when the backend starts. To change the schema later, add a new file such as `V5__add_testimonials.sql`; never edit a migration that has already run in production.
 
 All primary keys are `BIGINT GENERATED ALWAYS AS IDENTITY`. Every table has `created_at` and `updated_at` (`TIMESTAMPTZ`, stored in UTC). Hibernate validates the schema on startup (`ddl-auto: validate`) and never changes it.
 
@@ -121,6 +122,7 @@ Signed-in sessions (7 days). Only the hash is stored; rotated on every refresh.
 | completed_on | date | |
 | display_order | integer | |
 | published | boolean | default false; the public Portfolio page appears once any project is published |
+| is_concept | boolean | default false; concept work (not for a client), labelled "Concept" on the site (V4) |
 
 ### portfolio_images
 
@@ -149,6 +151,9 @@ Key/value switches. Seeded keys:
 | `pilot.enabled` | `true` | Pilot offer switched on |
 | `pilot.price` | `2900.00` | Pilot price for the Launch Bundle |
 | `pilot.spots_remaining` | `5` | Offer disappears at 0 |
+| `booking.url` | empty | Shared booking page for the "Book a call" buttons; empty hides them (V4) |
+
+V4 sets `pilot.enabled` to `false`: the pilot price is now offered only in outreach and proposals. Switch it back on in **Settings** if needed, and republish the "What is the pilot price?" FAQ.
 
 ### leads
 

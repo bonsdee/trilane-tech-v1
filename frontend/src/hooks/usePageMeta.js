@@ -27,6 +27,11 @@ function setCanonical(href) {
 
 /** Sets the page title, description, canonical address and sharing tags. */
 export function usePageMeta({ title, description = DEFAULT_DESCRIPTION, path, noindex = false } = {}) {
+  if (typeof window === 'undefined') {
+    // Build-time pre-render: hand the tags to the build script instead.
+    const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} | Websites that bring in leads`;
+    globalThis.__TRILANE_META__ = { title: fullTitle, description, url: `${SITE_URL}${path ?? globalThis.__TRILANE_PATH__ ?? '/'}`, noindex };
+  }
   useEffect(() => {
     const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} | Websites that bring in leads`;
     const url = `${SITE_URL}${path ?? window.location.pathname}`;

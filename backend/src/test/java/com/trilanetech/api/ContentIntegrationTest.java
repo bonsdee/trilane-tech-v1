@@ -51,6 +51,11 @@ class ContentIntegrationTest extends IntegrationTest {
 
     @Test
     void pilotOfferDisappearsWhenSpotsRunOutOrItIsSwitchedOff() throws Exception {
+        // Held back from the public site by default; switching it on shows it.
+        mvc.perform(get("/api/v1/public/site")).andExpect(jsonPath("$.data.pilot.active").value(false))
+                .andExpect(jsonPath("$.data.pilot.price").doesNotExist());
+        mvc.perform(put("/api/v1/admin/settings/pilot").header("Authorization", auth).contentType(MediaType.APPLICATION_JSON)
+                .content("{\"enabled\":true,\"price\":2900,\"spotsRemaining\":5}")).andExpect(status().isOk());
         mvc.perform(get("/api/v1/public/site"))
                 .andExpect(jsonPath("$.data.pilot.active").value(true))
                 .andExpect(jsonPath("$.data.pilot.price").value(2900.0))
@@ -152,6 +157,40 @@ class ContentIntegrationTest extends IntegrationTest {
         mvc.perform(post("/api/v1/admin/faqs").header("Authorization", auth).contentType(MediaType.APPLICATION_JSON)
                 .content("{\"question\":\"Hidden?\",\"answer\":\"Yes.\",\"published\":false}")).andExpect(status().isCreated());
         mvc.perform(get("/api/v1/public/faqs")).andExpect(jsonPath("$.data.length()").value(12));
-        mvc.perform(get("/api/v1/admin/faqs").header("Authorization", auth)).andExpect(jsonPath("$.data.length()").value(13));
+        mvc.perform(get("/api/v1/admin/faqs").header("Authorization", auth)).andExpect(jsonPath("$.data.length()").value(14));
+    }
+
+    @Test
+    void pilotFaqIsHiddenAndLocationFaqComesFirst() throws Exception {
+        mvc.perform(get("/api/v1/public/faqs"))
+                .andExpect(jsonPath("$.data[0].question").value("Where are you based, and when can we reach you?"))
+                .andExpect(jsonPath("$.data[?(@.question == 'What is the pilot price?')]").isEmpty());
+    }
+
+    @Test
+    void bookingLinkIsOptionalAndMustBeHttps() throws Exception {
+        mvc.perform(get("/api/v1/public/site")).andExpect(jsonPath("$.data.bookingUrl").doesNotExist());
+        mvc.perform(put("/api/v1/admin/settings/booking").header("Authorization", auth).contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"url\":\"http://example.com/book\"}"))
+                .andExpect(status().isBadRequest()).andExpect(jsonPath("$.error.fields.url").exists());
+        mvc.perform(put("/api/v1/admin/settings/booking").header("Authorization", auth).contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"url\":\"javascript:alert(1)\"}"))
+                .andExpect(status().isBadRequest());
+        mvc.perform(put("/api/v1/admin/settings/booking").header("Authorization", auth).contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"url\":\"  https://calendar.app.google/abc123  \"}"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.data.url").value("https://calendar.app.google/abc123"));
+        mvc.perform(get("/api/v1/public/site")).andExpect(jsonPath("$.data.bookingUrl").value("https://calendar.app.google/abc123"));
+        mvc.perform(put("/api/v1/admin/settings/booking").header("Authorization", auth).contentType(MediaType.APPLICATION_JSON)
+                .content("{\"url\":\"\"}")).andExpect(status().isOk());
+        mvc.perform(get("/api/v1/public/site")).andExpect(jsonPath("$.data.bookingUrl").doesNotExist());
+    }
+
+    @Test
+    void conceptProjectsAreMarked() throws Exception {
+        mvc.perform(post("/api/v1/admin/portfolio").header("Authorization", auth).contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"slug\":\"concept-cafe\",\"title\":\"Cafe site\",\"published\":true,\"concept\":true}"))
+                .andExpect(status().isCreated()).andExpect(jsonPath("$.data.concept").value(true));
+        mvc.perform(get("/api/v1/public/portfolio")).andExpect(jsonPath("$.data[0].concept").value(true));
+        mvc.perform(get("/api/v1/public/portfolio/concept-cafe")).andExpect(jsonPath("$.data.concept").value(true));
     }
 }

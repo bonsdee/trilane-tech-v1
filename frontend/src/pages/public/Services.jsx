@@ -122,7 +122,7 @@ export default function Services() {
     path: '/services',
   });
   const { site } = useSite();
-  const { data, loading, error, reload } = useFetch(getPublicServices, []);
+  const { data, loading, error, reload } = useFetch(getPublicServices, [], { seed: 'services' });
   const groups = (data || []).filter((g) => g.services.length > 0);
 
   return (

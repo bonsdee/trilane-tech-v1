@@ -65,6 +65,7 @@ function ProjectEditor({ project, services, onClose, onSaved }) {
     completedOn: project.completedOn || '',
     displayOrder: project.displayOrder ?? 0,
     published: project.published ?? false,
+    concept: project.concept ?? false,
     images: (project.images || []).map((i) => ({ fileId: i.fileId, url: i.url, altText: i.altText || '' })),
   });
   const [errors, setErrors] = useState({});
@@ -95,6 +96,7 @@ function ProjectEditor({ project, services, onClose, onSaved }) {
       completedOn: form.completedOn || null,
       displayOrder: Number(form.displayOrder) || 0,
       published: form.published,
+      concept: form.concept,
       images: form.images.map((i) => ({ fileId: i.fileId, altText: i.altText })),
     };
     try {
@@ -162,6 +164,7 @@ function ProjectEditor({ project, services, onClose, onSaved }) {
           <Field label="Display order" type="number" min="0" value={form.displayOrder} onChange={set('displayOrder')} error={errors.displayOrder} />
           <div style={{ alignSelf: 'center' }}>
             <Checkbox label="Published" hint="Publishing the first project adds Portfolio to the website menu." checked={form.published} onChange={set('published')} />
+            <Checkbox label="Concept project" hint={'Built to show your work, not for a client. The website labels it "Concept" and hides the client name.'} checked={form.concept} onChange={set('concept')} />
           </div>
         </div>
       </form>
@@ -216,6 +219,7 @@ export default function PortfolioAdmin() {
               <div className={a.itemHead}>
                 <span className={a.cellMain}>{p.title}</span>
                 {p.published ? <Badge tone="success">Published</Badge> : <Badge>Draft</Badge>}
+                {p.concept && <Badge>Concept</Badge>}
               </div>
               <p className={a.cellSub}>
                 {[p.clientName, p.serviceName, p.completedOn && formatDate(p.completedOn)].filter(Boolean).join(' · ') || 'No details yet'}

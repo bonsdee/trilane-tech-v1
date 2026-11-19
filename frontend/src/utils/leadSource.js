@@ -1,3 +1,4 @@
+import { currentPath } from '../prerender/seed';
 import { readStorage, writeStorage } from './storage';
 
 const KEY = 'trilane-lead-source';
@@ -42,6 +43,6 @@ export function contactLink({ service, cta, from } = {}) {
   const params = new URLSearchParams();
   if (service) params.set('service', service);
   if (cta) params.set('cta', cta);
-  params.set('from', from || window.location.pathname);
+  params.set('from', from || currentPath());
   return `/contact?${params.toString()}`;
 }

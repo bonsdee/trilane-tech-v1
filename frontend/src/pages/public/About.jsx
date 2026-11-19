@@ -31,7 +31,7 @@ const PRINCIPLES = [
 ];
 
 function Team() {
-  const { data, loading, error, reload } = useFetch(getPublicTeam, []);
+  const { data, loading, error, reload } = useFetch(getPublicTeam, [], { seed: 'team' });
   if (loading) {
     return (
       <SkeletonGroup label="Loading the team…" className={styles.team}>
@@ -73,7 +73,22 @@ export default function About() {
   });
   return (
     <>
-      <PageHeader eyebrow="About Trilane Tech" title="A small team for the whole path to a client.">
+      <PageHeader
+        eyebrow="About Trilane Tech"
+        title="A small team for the whole path to a client."
+        note={
+          <p className={styles.location}>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" />
+              <circle cx="12" cy="10" r="2.4" />
+            </svg>
+            <span>
+              We're based in Cebu, Philippines (GMT+8) and overlap with US mornings and Australian business hours. Most
+              replies go out within one business day.
+            </span>
+          </p>
+        }
+      >
         Most small businesses need more than a website. They need visitors to get in touch, and someone to answer when
         they do. Trilane Tech covers all three lanes: building the site, making it convert, and helping run what happens
         after someone reaches out.

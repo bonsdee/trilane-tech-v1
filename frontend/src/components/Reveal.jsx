@@ -31,6 +31,7 @@ export default function Reveal({ as: Tag = 'div', delay = 0, className = '', chi
       ref={ref}
       className={`${styles.reveal} ${visible ? styles.visible : ''} ${className}`}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
+      data-reveal=""
       {...rest}
     >
       {children}

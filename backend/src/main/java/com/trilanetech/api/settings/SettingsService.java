@@ -2,6 +2,7 @@ package com.trilanetech.api.settings;
 
 import com.trilanetech.api.catalog.ServiceOffering;
 import com.trilanetech.api.catalog.ServiceOfferingRepository;
+import com.trilanetech.api.common.Texts;
 import com.trilanetech.api.portfolio.PortfolioService;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -9,6 +10,8 @@ import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,7 @@ public class SettingsService {
     static final String PILOT_ENABLED = "pilot.enabled";
     static final String PILOT_PRICE = "pilot.price";
     static final String PILOT_SPOTS = "pilot.spots_remaining";
+    static final String BOOKING_URL = "booking.url";
     /** The service the pilot price applies to. */
     public static final String PILOT_SERVICE_SLUG = "launch-bundle";
 
@@ -52,7 +56,14 @@ public class SettingsService {
     public record PublicPilot(boolean active, BigDecimal price, BigDecimal regularPrice, Integer spotsRemaining,
                               String serviceSlug, String serviceName) {}
 
-    public record PublicSite(PublicPilot pilot, boolean portfolioVisible) {}
+    public record PublicSite(PublicPilot pilot, boolean portfolioVisible, String bookingUrl) {}
+
+    /** One shared booking page (Google Calendar, Calendly, Cal.com and so on). Empty hides the buttons. */
+    public record BookingSettings(String url) {}
+
+    public record BookingRequest(
+            @Size(max = 500, message = "Use at most 500 characters.")
+            @Pattern(regexp = "^\\s*$|^\\s*https://\\S+\\s*$", message = "Enter a full address starting with https://") String url) {}
 
     @Transactional(readOnly = true)
     public PilotSettings pilot() {
@@ -79,7 +90,20 @@ public class SettingsService {
         PublicPilot pilot = p.live()
                 ? new PublicPilot(true, p.price(), p.regularPrice(), p.spotsRemaining(), PILOT_SERVICE_SLUG, p.serviceName())
                 : new PublicPilot(false, null, null, null, null, null);
-        return new PublicSite(pilot, portfolio.anyPublished());
+        String booking = booking().url();
+        return new PublicSite(pilot, portfolio.anyPublished(), booking.isEmpty() ? null : booking);
+    }
+
+    @Transactional(readOnly = true)
+    public BookingSettings booking() {
+        return new BookingSettings(value(BOOKING_URL, "").trim());
+    }
+
+    @Transactional
+    public BookingSettings updateBooking(BookingRequest request) {
+        String url = Texts.clean(request.url());
+        put(BOOKING_URL, url == null ? "" : url);
+        return booking();
     }
 
     private String value(String key, String fallback) {

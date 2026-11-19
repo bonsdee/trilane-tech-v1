@@ -32,10 +32,11 @@
         if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
       } catch (e) {}
     </script>
+      <style>.pr-hide #root{visibility:hidden}</style>
   </head>
   <body>
     <div id="root"></div>
-    <noscript>Trilane Tech needs JavaScript to show this site. Please enable it and reload.</noscript>
+    <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

@@ -4,7 +4,7 @@ import axios from 'axios';
 export const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api/v1').replace(/\/$/, '');
 
 /** Host part of the API, used to turn "/api/v1/files/12" into a full image address. */
-const API_ORIGIN = new URL(API_BASE_URL, window.location.href).origin;
+const API_ORIGIN = new URL(API_BASE_URL, typeof window === 'undefined' ? 'https://trilanetech.com' : window.location.href).origin;
 
 export function fileUrl(path) {
   if (!path) return null;

@@ -4,7 +4,8 @@ import { GA_ID } from '../../utils/analytics';
 import PageHeader from './PageHeader';
 import styles from './Privacy.module.css';
 
-const UPDATED = 'November 17, 2026';
+const UPDATED = 'November 19, 2026';
+const EMAIL = 'jivonzdy@trilanetech.com';
 
 export default function Privacy() {
   usePageMeta({ title: 'Privacy Policy', description: 'How Trilane Tech handles the information you share with us.', path: '/privacy' });
@@ -17,8 +18,11 @@ export default function Privacy() {
         <section>
           <h2>Who we are</h2>
           <p>
-            Trilane Tech ("we", "us") runs this website at trilanetech.com. This page explains what information we
-            collect through the site, why, and the choices you have.
+            Trilane Tech ("we", "us") is a small web and operations team based in Cebu, Philippines. We run this
+            website at trilanetech.com. This page explains what information we collect, why, and the choices you have.
+          </p>
+          <p>
+            Questions or requests about your information: email <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
           </p>
         </section>
         <section>
@@ -39,6 +43,11 @@ export default function Privacy() {
                 ? 'if you accept analytics cookies in the banner, Google Analytics collects information about how you use the site, such as the pages you visit. If you decline, it never loads.'
                 : 'this site is set up so that analytics only load if you accept them in a cookie banner. Analytics are currently switched off.'}
             </li>
+            <li>
+              <strong>If we contacted you first:</strong> your name, job title, business name and business contact
+              details (such as a work email, phone number or website), taken from publicly available business sources
+              like your company website, business directories and professional profiles.
+            </li>
           </ul>
         </section>
         <section>
@@ -50,11 +59,24 @@ export default function Privacy() {
           </p>
         </section>
         <section>
+          <h2>Outreach emails</h2>
+          <p>
+            We sometimes email businesses we think our services could help, using business contact details that are
+            publicly available. We keep these messages short and relevant to your business, and we don't buy email
+            lists.
+          </p>
+          <p>
+            You can opt out at any time: reply "unsubscribe" to any of our emails, or write to{' '}
+            <a href={`mailto:${EMAIL}`}>{EMAIL}</a>. We'll stop contacting you and keep only the minimum needed (your
+            email address) on a do-not-contact list, so you aren't contacted again.
+          </p>
+        </section>
+        <section>
           <h2>Where it's kept</h2>
           <p>
-            Inquiries are stored in our database and are visible only to the Trilane Tech team through a password
-            protected dashboard. Email is delivered through our email provider. Our hosting providers store this data
-            on our behalf.
+            We operate from the Philippines. Inquiries are stored in our database and are visible only to the Trilane
+            Tech team through a password protected dashboard. Our servers and database are hosted in Singapore, and our
+            email runs on Google Workspace. These providers store and process the data on our behalf.
           </p>
         </section>
         <section>
@@ -76,9 +98,13 @@ export default function Privacy() {
         <section>
           <h2>Your choices</h2>
           <p>
-            You can ask us what information we hold about you, ask us to correct it, or ask us to delete it. Reply to
-            any email you've received from us, or send a request through the <Link to="/contact">contact form</Link>,
-            and we'll take care of it.
+            You can ask us what information we hold about you, ask us to correct it, or ask us to delete it. Email{' '}
+            <a href={`mailto:${EMAIL}`}>{EMAIL}</a>, reply to any email you've received from us, or use the{' '}
+            <Link to="/contact">contact form</Link>, and we'll take care of it.
+          </p>
+          <p>
+            We handle personal information in line with the Philippine Data Privacy Act of 2012. If you're not happy with
+            how we've handled a request, you can also contact the National Privacy Commission of the Philippines.
           </p>
         </section>
         <section>

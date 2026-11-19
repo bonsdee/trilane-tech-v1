@@ -6,7 +6,7 @@ const SiteContext = createContext({ site: null, loading: true, error: null });
 
 /** Pilot offer state and portfolio visibility, loaded once for the public site. */
 export function SiteProvider({ children }) {
-  const { data, loading, error, reload } = useFetch(getSite, []);
+  const { data, loading, error, reload } = useFetch(getSite, [], { seed: 'site' });
   return <SiteContext.Provider value={{ site: data, loading, error, reload }}>{children}</SiteContext.Provider>;
 }
 

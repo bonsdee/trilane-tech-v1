@@ -42,5 +42,16 @@ public final class SettingsControllers {
         public ApiResponse<SettingsService.PilotSettings> update(@Valid @RequestBody SettingsService.PilotRequest body) {
             return ApiResponse.of(settings.updatePilot(body));
         }
+
+        @GetMapping("/api/v1/admin/settings/booking")
+        public ApiResponse<SettingsService.BookingSettings> booking() {
+            return ApiResponse.of(settings.booking());
+        }
+
+        @PutMapping("/api/v1/admin/settings/booking")
+        public ApiResponse<SettingsService.BookingSettings> updateBooking(
+                @Valid @RequestBody SettingsService.BookingRequest body) {
+            return ApiResponse.of(settings.updateBooking(body));
+        }
     }
 }

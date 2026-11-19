@@ -12,6 +12,10 @@
   max-width: 640px;
 }
 
+.note {
+  margin-top: var(--space-3);
+}
+
 @media (max-width: 720px) {
   .header {
     padding: var(--space-8) 0 var(--space-4);

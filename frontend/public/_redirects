@@ -1,2 +1,4 @@
-# Netlify: send every route to the single-page app.
-/*    /index.html   200
+# Cloudflare Pages serves index.html for any path without its own file, so the
+# app handles /admin and other routes on its own. No catch-all rule here:
+# Cloudflare applies _redirects even when a page file exists, which would hide
+# the pre-rendered pages (about.html, services.html and so on).

@@ -7,7 +7,8 @@ import { prefersReducedMotion, useInView } from '../hooks/useInView';
  */
 export default function CountUp({ value, duration = 1400, className }) {
   const [ref, inView] = useInView({ threshold: 0.6 });
-  const [progress, setProgress] = useState(0);
+  // Pre-rendered pages show the final numbers; the browser then counts up.
+  const [progress, setProgress] = useState(() => (typeof window === 'undefined' ? 1 : 0));
 
   useEffect(() => {
     if (!inView) return undefined;

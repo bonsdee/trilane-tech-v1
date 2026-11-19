@@ -20,7 +20,7 @@ class PermissionsIntegrationTest extends IntegrationTest {
     @ParameterizedTest
     @ValueSource(strings = {"/api/v1/admin/leads", "/api/v1/admin/leads/export", "/api/v1/admin/dashboard/summary",
             "/api/v1/admin/services", "/api/v1/admin/team", "/api/v1/admin/portfolio", "/api/v1/admin/faqs",
-            "/api/v1/admin/settings/pilot", "/api/v1/admin/users", "/api/v1/auth/me"})
+            "/api/v1/admin/settings/pilot", "/api/v1/admin/settings/booking", "/api/v1/admin/users", "/api/v1/auth/me"})
     void adminEndpointsNeedASignedInUser(String path) throws Exception {
         mvc.perform(get(path)).andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.error.code").value("UNAUTHORIZED"));
@@ -32,6 +32,8 @@ class PermissionsIntegrationTest extends IntegrationTest {
         mvc.perform(post("/api/v1/admin/services").contentType(MediaType.APPLICATION_JSON).content("{}"))
                 .andExpect(status().isUnauthorized());
         mvc.perform(put("/api/v1/admin/settings/pilot").contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isUnauthorized());
+        mvc.perform(put("/api/v1/admin/settings/booking").contentType(MediaType.APPLICATION_JSON).content("{}"))
                 .andExpect(status().isUnauthorized());
         mvc.perform(delete("/api/v1/admin/leads/1")).andExpect(status().isUnauthorized());
         mvc.perform(patch("/api/v1/admin/users/1").contentType(MediaType.APPLICATION_JSON).content("{}"))

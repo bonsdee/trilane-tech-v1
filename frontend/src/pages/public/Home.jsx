@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { getPublicServices } from '../../api/services';
 import { getPublicTeam } from '../../api/team';
+import BookCall from '../../components/BookCall';
 import Button from '../../components/Button';
 import CountUp from '../../components/CountUp';
 import HeroVisual from '../../components/HeroVisual';
@@ -79,7 +80,7 @@ function Steps() {
 }
 
 function ServicesAtAGlance() {
-  const { data, loading, error, reload } = useFetch(getPublicServices, []);
+  const { data, loading, error, reload } = useFetch(getPublicServices, [], { seed: 'services' });
   if (loading) {
     return (
       <SkeletonGroup label="Loading services…" className={styles.glance}>
@@ -114,7 +115,7 @@ function ServicesAtAGlance() {
 }
 
 function TeamPreview() {
-  const { data, loading, error, reload } = useFetch(getPublicTeam, []);
+  const { data, loading, error, reload } = useFetch(getPublicTeam, [], { seed: 'team' });
   if (loading) {
     return (
       <SkeletonGroup label="Loading the team…" className={styles.team}>
@@ -300,9 +301,12 @@ export default function Home() {
           <Reveal className={styles.closing}>
             <h2 className={styles.closingTitle}>Tell us what you need.</h2>
             <p className="lead">Share a few details about your business and we'll reply personally.</p>
-            <Button size="lg" arrow to={contactLink({ cta: 'home-closing', from: '/' })}>
-              Get in touch
-            </Button>
+            <div className={styles.closingActions}>
+              <Button size="lg" arrow to={contactLink({ cta: 'home-closing', from: '/' })}>
+                Get in touch
+              </Button>
+              <BookCall />
+            </div>
           </Reveal>
         </div>
       </section>

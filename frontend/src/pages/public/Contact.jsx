@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { errorCode, errorMessage, fieldErrors } from '../../api/client';
 import { submitLead } from '../../api/leads';
 import { getPublicServices } from '../../api/services';
+import BookCall from '../../components/BookCall';
 import Button from '../../components/Button';
 import Field from '../../components/Field';
 import Reveal from '../../components/Reveal';
@@ -30,7 +31,7 @@ export default function Contact() {
     path: '/contact',
   });
   const [params] = useSearchParams();
-  const services = useFetch(getPublicServices, []);
+  const services = useFetch(getPublicServices, [], { seed: 'services' });
   const options = useMemo(() => (services.data || []).flatMap((g) => g.services), [services.data]);
 
   const requested = params.get('service') || '';
@@ -112,6 +113,12 @@ export default function Contact() {
       </PageHeader>
       <div className={`container ${styles.layout}`}>
         <Reveal className={styles.formCard}>
+          <noscript>
+            <p className={styles.noscript}>
+              This form needs JavaScript. You can email us instead at{' '}
+              <a href="mailto:jivonzdy@trilanetech.com">jivonzdy@trilanetech.com</a>.
+            </p>
+          </noscript>
           <form onSubmit={submit} noValidate className={styles.form} aria-describedby={formError ? 'form-error' : undefined}>
             {formError && (
               <div id="form-error">
@@ -192,7 +199,7 @@ export default function Contact() {
               ))}
             </ol>
           </Reveal>
-          {/* Reserved for a future "Book a call" button (calendar booking is not part of this version). */}
+          <BookCall variant="panel" size="md" />
         </aside>
       </div>
     </>

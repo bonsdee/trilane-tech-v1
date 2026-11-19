@@ -54,6 +54,10 @@ public class PortfolioProject extends BaseEntity {
     @Column(nullable = false)
     private boolean published;
 
+    /** Concept work built to show skills, not a client project. Labelled as such on the site. */
+    @Column(name = "is_concept", nullable = false)
+    private boolean concept;
+
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("displayOrder ASC, id ASC")
     private List<PortfolioImage> images = new ArrayList<>();
@@ -88,5 +92,7 @@ public class PortfolioProject extends BaseEntity {
     public void setDisplayOrder(int displayOrder) { this.displayOrder = displayOrder; }
     public boolean isPublished() { return published; }
     public void setPublished(boolean published) { this.published = published; }
+    public boolean isConcept() { return concept; }
+    public void setConcept(boolean concept) { this.concept = concept; }
     public List<PortfolioImage> getImages() { return images; }
 }

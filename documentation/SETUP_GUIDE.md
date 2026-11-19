@@ -176,7 +176,7 @@ Frontend values are compiled into the public JavaScript, so never put secrets in
 
 ## 11. Production deployment
 
-The approved layout: frontend on Vercel or Netlify at `trilanetech.com`, backend on Render or Railway at `api.trilanetech.com`, managed PostgreSQL from the same provider, and a persistent disk for images. I have not verified these providers' current plans or prices; check them before choosing. Entry-level plans often put an idle backend to sleep, which makes the first request after a quiet period slow.
+The live setup: frontend on **Cloudflare Pages** at `trilanetech.com`, backend on **Render** (Singapore) at `api.trilanetech.com` with a PostgreSQL database on **Supabase** (Singapore, session pooler). The approved specification allowed Vercel or Netlify for the frontend; Cloudflare Pages was chosen because its free plan adds no badge. In general terms the layout is: frontend at `trilanetech.com`, backend at `api.trilanetech.com`, managed PostgreSQL from the same provider, and a persistent disk for images. I have not verified these providers' current plans or prices; check them before choosing. Entry-level plans often put an idle backend to sleep, which makes the first request after a quiet period slow.
 
 Because the site and API share the registrable domain `trilanetech.com`, the refresh cookie works with `SameSite=Lax` and no extra settings.
 
@@ -196,17 +196,21 @@ Some providers show a `postgres://user:pass@host/db` address; the JDBC address u
 2. Attach a **persistent disk** mounted at `/data/uploads`. Without it, uploaded images are lost on every redeploy. The image already sets `UPLOAD_DIR=/data/uploads`.
 3. Set the environment variables (section 10): `SPRING_PROFILES_ACTIVE=prod`, the `DB_*` values, a new `JWT_SECRET` (`openssl rand -base64 48`), `SITE_URL=https://trilanetech.com`, `CORS_ALLOWED_ORIGINS=https://trilanetech.com,https://www.trilanetech.com`, `ADMIN_EMAIL`, `ADMIN_NAME`, the Google `MAIL_*` values (section 12) and `LEAD_NOTIFICATION_TO`.
 4. If the host requires a health check path, use `/api/v1/public/site`.
-5. Deploy. In the log, look for `Successfully applied 3 migrations` and `Created the first admin account`.
+5. Deploy. In the log, look for `Successfully applied 4 migrations` and `Created the first admin account`.
 6. Add the custom domain `api.trilanetech.com` on the host and enable HTTPS.
 
 The production profile trusts the host's proxy headers so client addresses are correct for the contact form limit. If every visitor seems to share one limit, the host's proxy address is outside the usual private ranges; set `SERVER_TOMCAT_REMOTEIP_INTERNALPROXIES` to a regular expression matching it.
 
 ### 11.3 Frontend
 
-1. Create a site from this repository with base directory `frontend`, build command `npm run build` and output directory `dist`.
-2. Set `VITE_API_BASE_URL=https://api.trilanetech.com/api/v1`, `VITE_SITE_URL=https://trilanetech.com` and optionally `VITE_GA_MEASUREMENT_ID`.
-3. All routes must go to `index.html`. This is already configured: `frontend/vercel.json` for Vercel and `frontend/public/_redirects` for Netlify.
-4. Add the domain `trilanetech.com` (and `www`, redirecting to the main one).
+1. In Cloudflare, create a **Pages** project from this repository: root directory `frontend`, build command `npm run build`, output directory `dist`.
+2. Set `VITE_API_BASE_URL=https://api.trilanetech.com/api/v1`, `VITE_SITE_URL=https://trilanetech.com`, `NODE_VERSION=22` and optionally `VITE_GA_MEASUREMENT_ID`.
+3. Add the custom domains `trilanetech.com` and `www.trilanetech.com` under the project's **Custom domains**.
+4. Routing: Cloudflare Pages serves `index.html` for any path without its own file, so `/admin` and the portfolio pages work with no rules. `frontend/public/_redirects` deliberately has no catch-all rule, because Cloudflare applies `_redirects` even when a page file exists and would hide the pre-rendered pages. (`frontend/vercel.json` is only for a Vercel setup.)
+
+**Pre-rendered pages.** `npm run build` also writes a ready-made HTML file for Home, Services, About, FAQ, Contact and Privacy (`scripts/prerender.mjs`). Visitors, search engines and link previews that don't run JavaScript see the full content, and each page has its own title and description. The build reads services, team, FAQs and site settings from the live API at `VITE_API_BASE_URL`. If the API can't be reached, the build still succeeds and those sections load in the browser instead.
+
+Content you change in the dashboard shows up for normal visitors straight away. The pre-rendered copy updates on the next build, so after larger content changes run **Retry deployment** on the latest deployment in Cloudflare Pages. When a backend change and a frontend change are pushed together, wait until Render shows the backend as **Live**, then retry the Cloudflare deployment so the pre-rendered pages use the new data.
 
 Link previews (when the site is shared in chat apps or social media) use `frontend/public/og-image.png`, a 1200×630 image. The build writes the full address from `VITE_SITE_URL` into the preview tags in `index.html`, so that variable must be set to the live address. To change the preview, replace the image with another of the same size and name.
 
@@ -214,7 +218,7 @@ The Inter typeface is served from `frontend/public/fonts` rather than a font ser
 
 ### 11.4 DNS
 
-At your domain registrar, add the records each host shows you. Typically:
+With the domain on Cloudflare, Pages creates the `@` and `www` records itself when you add the custom domains. For other setups, add the records each host shows you. Typically:
 
 | Name | Type | Value |
 | --- | --- | --- |

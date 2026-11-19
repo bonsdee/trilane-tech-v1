@@ -20,26 +20,28 @@ public final class PortfolioDtos {
 
     public record ProjectSummary(Long id, String slug, String title, String clientName, String summary,
                                  Long serviceId, String serviceName, String serviceSlug, Long coverFileId,
-                                 String coverUrl, LocalDate completedOn, int displayOrder, boolean published) {
+                                 String coverUrl, LocalDate completedOn, int displayOrder, boolean published,
+                                 boolean concept) {
         static ProjectSummary from(PortfolioProject p) {
             var s = p.getService();
             return new ProjectSummary(p.getId(), p.getSlug(), p.getTitle(), p.getClientName(), p.getSummary(),
                     s == null ? null : s.getId(), s == null ? null : s.getName(), s == null ? null : s.getSlug(),
                     p.getCoverFileId(), FileService.urlFor(p.getCoverFileId()), p.getCompletedOn(),
-                    p.getDisplayOrder(), p.isPublished());
+                    p.getDisplayOrder(), p.isPublished(), p.isConcept());
         }
     }
 
     public record ProjectDetail(Long id, String slug, String title, String clientName, String summary,
                                 String description, Long serviceId, String serviceName, String serviceSlug,
                                 String projectUrl, Long coverFileId, String coverUrl, LocalDate completedOn,
-                                int displayOrder, boolean published, List<ImageDto> images) {
+                                int displayOrder, boolean published, boolean concept, List<ImageDto> images) {
         static ProjectDetail from(PortfolioProject p) {
             var s = p.getService();
             return new ProjectDetail(p.getId(), p.getSlug(), p.getTitle(), p.getClientName(), p.getSummary(),
                     p.getDescription(), s == null ? null : s.getId(), s == null ? null : s.getName(),
                     s == null ? null : s.getSlug(), p.getProjectUrl(), p.getCoverFileId(),
                     FileService.urlFor(p.getCoverFileId()), p.getCompletedOn(), p.getDisplayOrder(), p.isPublished(),
+                    p.isConcept(),
                     p.getImages().stream()
                             .map(i -> new ImageDto(i.getFileId(), FileService.urlFor(i.getFileId()), i.getAltText()))
                             .toList());
@@ -64,5 +66,6 @@ public final class PortfolioDtos {
             LocalDate completedOn,
             @Min(value = 0, message = "Order must be 0 or more.") @Max(value = 10000, message = "Order is too large.") Integer displayOrder,
             Boolean published,
+            Boolean concept,
             @Size(max = 30, message = "Use at most 30 images.") List<@Valid ImageRequest> images) {}
 }

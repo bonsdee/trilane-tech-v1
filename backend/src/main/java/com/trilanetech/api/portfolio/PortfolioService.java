@@ -94,6 +94,7 @@ public class PortfolioService {
         p.setCompletedOn(r.completedOn());
         p.setDisplayOrder(r.displayOrder() == null ? 0 : r.displayOrder());
         p.setPublished(Boolean.TRUE.equals(r.published()));
+        p.setConcept(Boolean.TRUE.equals(r.concept()));
         List<PortfolioImage> images = new ArrayList<>();
         if (r.images() != null) {
             int order = 1;
