@@ -5,7 +5,6 @@
   height: var(--header-height);
   background: var(--color-header);
   backdrop-filter: saturate(180%) blur(18px);
-  -webkit-backdrop-filter: saturate(180%) blur(18px);
   border-bottom: 1px solid transparent;
   transition: border-color var(--duration) var(--ease), height 260ms var(--ease), margin-bottom 260ms var(--ease),
     box-shadow var(--duration) var(--ease);
@@ -35,6 +34,9 @@
 
 .brand {
   display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  min-width: 0;
 }
 
 .brand:hover {
@@ -143,11 +145,24 @@
 
 .mobileMenu {
   position: fixed;
-  inset: var(--header-height) 0 0 0;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: var(--color-bg);
-  z-index: 49;
-  padding: var(--space-3);
+  /* Above the cookie banner (60) so it never covers the last links. */
+  z-index: 65;
+  padding: var(--space-3) var(--space-3) calc(var(--space-3) + env(safe-area-inset-bottom));
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* If the window is widened while the menu is open, the desktop nav takes over. */
+@media (min-width: 861px) {
+  .mobileMenu {
+    display: none;
+  }
 }
 
 .mobileOpen {
@@ -166,6 +181,10 @@
   color: var(--color-text);
   padding: 12px 0;
   border-bottom: 1px solid var(--color-border);
+}
+
+.mobileActive {
+  color: var(--color-accent);
 }
 
 .mobileLink:hover {
@@ -246,6 +265,34 @@
 @media (max-width: 420px) {
   .headerCta {
     display: none;
+  }
+  .headerInner {
+    gap: var(--space-1);
+  }
+  .actions {
+    gap: 4px;
+  }
+}
+
+/* Smallest phones (iPhone SE 1st gen, older Androids): keep logo, theme switch and
+   menu button on one line without pushing the page sideways. */
+@media (max-width: 374px) {
+  .brand :global(svg) {
+    height: 21px;
+  }
+}
+
+/* Footer links are easier to tap on phones with a little more height. */
+@media (max-width: 720px) {
+  .footerNav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 var(--space-3);
+  }
+  .footerNav a,
+  .footerNav .linkButton {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
   }
 }
 

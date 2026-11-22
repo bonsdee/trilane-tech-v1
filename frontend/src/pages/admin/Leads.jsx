@@ -163,7 +163,7 @@ export default function Leads() {
       )}
       {!error && leads.length > 0 && (
         <>
-          <Table caption="Leads">
+          <Table caption="Leads" stacked>
             <thead>
               <tr>
                 <th scope="col">Lead</th>
@@ -184,16 +184,16 @@ export default function Leads() {
                     </Link>
                     <div className={a.cellSub}>{lead.company || lead.email}</div>
                   </td>
-                  <td>{lead.serviceName || <span className={a.cellSub}>Not specified</span>}</td>
-                  <td>
+                  <td data-label="Service">{lead.serviceName || <span className={a.cellSub}>Not specified</span>}</td>
+                  <td data-label="Status">
                     <StatusBadge status={lead.status} label={lead.statusLabel} />
                   </td>
-                  <td>{lead.assignedToName || <span className={a.cellSub}>Unassigned</span>}</td>
-                  <td className={lead.overdue ? a.overdue : undefined}>
+                  <td data-label="Assigned to">{lead.assignedToName || <span className={a.cellSub}>Unassigned</span>}</td>
+                  <td data-label="Follow-up" className={lead.overdue ? a.overdue : undefined}>
                     {lead.followUpOn ? `${formatDate(lead.followUpOn)}${lead.overdue ? ' (overdue)' : ''}` : '—'}
                   </td>
-                  <td>{lead.source}</td>
-                  <td className={a.cellSub}>{formatDateTime(lead.createdAt)}</td>
+                  <td data-label="Source">{lead.source}</td>
+                  <td data-label="Received" className={a.cellSub}>{formatDateTime(lead.createdAt)}</td>
                 </tr>
               ))}
             </tbody>

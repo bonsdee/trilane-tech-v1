@@ -207,7 +207,7 @@ export default function ServicesAdmin() {
       {error && <ErrorState error={error} onRetry={reload} />}
       {data && data.length === 0 && <EmptyState title="No services yet." action={<Button onClick={() => setEditing({})}>Add the first service</Button>} />}
       {data && data.length > 0 && (
-        <Table caption="Services">
+        <Table caption="Services" stacked>
           <thead>
             <tr>
               <th scope="col">Service</th>
@@ -227,11 +227,11 @@ export default function ServicesAdmin() {
                   <div className={a.cellMain}>{s.name}</div>
                   <div className={a.cellSub}>{s.slug}</div>
                 </td>
-                <td>{CATEGORY_LABELS[s.category]}</td>
-                <td>{formatPrice(s.price, s.billingPeriod)}</td>
-                <td>{s.displayOrder}</td>
-                <td>{s.published ? <Badge tone="success">Published</Badge> : <Badge>Hidden</Badge>}</td>
-                <td>
+                <td data-label="Category">{CATEGORY_LABELS[s.category]}</td>
+                <td data-label="Price">{formatPrice(s.price, s.billingPeriod)}</td>
+                <td data-label="Order">{s.displayOrder}</td>
+                <td data-label="Status">{s.published ? <Badge tone="success">Published</Badge> : <Badge>Hidden</Badge>}</td>
+                <td data-label="">
                   <div className={a.rowActions}>
                     <Button variant="secondary" size="sm" onClick={() => setEditing(s)}>
                       Edit

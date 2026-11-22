@@ -49,49 +49,65 @@ function Header() {
     };
   }, [menuOpen]);
 
+  const closeMenu = () => setMenuOpen(false);
+
   return (
-    <header className={`${styles.header} ${scrolled ? styles.scrolled : ''} ${compact ? styles.compact : ''}`}>
-      <div className={`container ${styles.headerInner}`}>
-        <Link to="/" className={styles.brand} aria-label="Trilane Tech home">
-          <Logo />
-        </Link>
-        <nav className={styles.nav} aria-label="Main">
-          {items.map((item) => (
-            <NavLink key={item.to} to={item.to} className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ''}`}>
-              {item.label}
-            </NavLink>
-          ))}
-        </nav>
-        <div className={styles.actions}>
-          <ThemeToggle />
-          <Button size="sm" to={contactLink({ cta: 'header-contact', from: location.pathname })} className={styles.headerCta}>
-            Contact
-          </Button>
-          <button
-            type="button"
-            className={styles.menuButton}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            onClick={() => setMenuOpen((o) => !o)}
-          >
-            <span className={`${styles.burger} ${menuOpen ? styles.burgerOpen : ''}`} aria-hidden="true" />
-          </button>
+    <>
+      <header className={`${styles.header} ${scrolled ? styles.scrolled : ''} ${compact ? styles.compact : ''}`}>
+        <div className={`container ${styles.headerInner}`}>
+          <Link to="/" className={styles.brand} aria-label="Trilane Tech home" onClick={closeMenu}>
+            <Logo />
+          </Link>
+          <nav className={styles.nav} aria-label="Main">
+            {items.map((item) => (
+              <NavLink key={item.to} to={item.to} className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ''}`}>
+                {item.label}
+              </NavLink>
+            ))}
+          </nav>
+          <div className={styles.actions}>
+            <ThemeToggle />
+            <Button size="sm" to={contactLink({ cta: 'header-contact', from: location.pathname })} className={styles.headerCta}>
+              Contact
+            </Button>
+            <button
+              type="button"
+              className={styles.menuButton}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              onClick={() => setMenuOpen((o) => !o)}
+            >
+              <span className={`${styles.burger} ${menuOpen ? styles.burgerOpen : ''}`} aria-hidden="true" />
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
+      {/* Kept outside <header> on purpose: the header's backdrop blur turns it into the
+          positioning box for fixed children, which squashed this panel to nothing on iPhones. */}
       <div id="mobile-menu" className={`${styles.mobileMenu} ${menuOpen ? styles.mobileOpen : ''}`} hidden={!menuOpen}>
         <nav aria-label="Mobile" className={styles.mobileNav}>
           {[{ to: '/', label: 'Home' }, ...items].map((item) => (
-            <NavLink key={item.to} to={item.to} end className={styles.mobileLink}>
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end
+              className={({ isActive }) => `${styles.mobileLink} ${isActive ? styles.mobileActive : ''}`}
+              onClick={closeMenu}
+            >
               {item.label}
             </NavLink>
           ))}
-          <NavLink to={contactLink({ cta: 'mobile-menu-contact', from: location.pathname })} className={styles.mobileLink}>
+          <NavLink
+            to={contactLink({ cta: 'mobile-menu-contact', from: location.pathname })}
+            className={({ isActive }) => `${styles.mobileLink} ${isActive ? styles.mobileActive : ''}`}
+            onClick={closeMenu}
+          >
             Contact
           </NavLink>
         </nav>
       </div>
-    </header>
+    </>
   );
 }
 

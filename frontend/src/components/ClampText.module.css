@@ -16,7 +16,8 @@
 
 .toggle {
   margin-top: auto;
-  padding: 0;
+  padding: 10px 0;
+  margin-bottom: -10px;
   border: 0;
   background: none;
   font: inherit;

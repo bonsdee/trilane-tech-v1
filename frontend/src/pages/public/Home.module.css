@@ -421,6 +421,20 @@
 }
 
 @media (max-width: 480px) {
+  /* Keeps "10–14 days" on one line on small phones. */
+  .factValue {
+    font-size: 2rem;
+    white-space: nowrap;
+  }
+  .person {
+    padding: var(--space-2);
+  }
+  .person > :first-child {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    font-size: 28px;
+  }
   .fact {
     padding: var(--space-3) var(--space-2) var(--space-3) var(--space-2);
   }

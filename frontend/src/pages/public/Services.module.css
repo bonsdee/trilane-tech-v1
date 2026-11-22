@@ -204,6 +204,13 @@
   color: var(--color-text-secondary);
 }
 
+@media (max-width: 400px) {
+  /* "$1,500 / month" stays on one line on small phones. */
+  .price {
+    font-size: 1.75rem;
+  }
+}
+
 @media (max-width: 720px) {
   .card {
     padding: var(--space-3);

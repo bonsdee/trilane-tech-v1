@@ -49,6 +49,10 @@
   font-size: var(--text-small);
   display: flex;
   justify-content: space-between;
-  gap: var(--space-2);
+  gap: 0 var(--space-2);
   flex-wrap: wrap;
+}
+
+.links a {
+  padding: 10px 0;
 }

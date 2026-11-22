@@ -39,3 +39,67 @@
 .table tbody tr:hover {
   background: var(--color-surface);
 }
+
+/* Phones: rows become cards instead of a table you have to scroll sideways. */
+@media (max-width: 640px) {
+  .stackedWrap {
+    overflow: visible;
+    border: none;
+    border-radius: 0;
+    background: none;
+  }
+  .stacked thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+  .stacked,
+  .stacked tbody,
+  .stacked tr,
+  .stacked td {
+    display: block;
+    width: 100%;
+  }
+  .stacked tbody tr {
+    margin-bottom: 12px;
+    padding: 4px 0 8px;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    background: var(--color-surface-raised);
+  }
+  .stacked tbody tr:hover {
+    background: var(--color-surface-raised);
+  }
+  .stacked td,
+  .stacked tbody tr:last-child td {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-2);
+    padding: 5px 16px;
+    border-bottom: none;
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+  .stacked td::before {
+    content: attr(data-label);
+    flex-shrink: 0;
+    font-size: var(--text-tiny);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-align: left;
+  }
+  .stacked td:first-child,
+  .stacked tbody tr:last-child td:first-child {
+    display: block;
+    text-align: left;
+    padding: 10px 16px 10px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .stacked td:first-child::before {
+    content: none;
+  }
+}

@@ -112,7 +112,7 @@ export default function UsersAdmin() {
       {loading && <LoadingBlock label="Loading users…" />}
       {error && <ErrorState error={error} onRetry={reload} />}
       {data && (
-        <Table caption="Users">
+        <Table caption="Users" stacked>
           <thead>
             <tr>
               <th scope="col">Name</th>
@@ -133,9 +133,9 @@ export default function UsersAdmin() {
                   </div>
                   <div className={a.cellSub}>{u.email}</div>
                 </td>
-                <td>{STATUS[u.status]}</td>
-                <td className={a.cellSub}>{u.lastLoginAt ? formatDateTime(u.lastLoginAt) : 'Never'}</td>
-                <td>
+                <td data-label="Status">{STATUS[u.status]}</td>
+                <td data-label="Last sign-in" className={a.cellSub}>{u.lastLoginAt ? formatDateTime(u.lastLoginAt) : 'Never'}</td>
+                <td data-label="">
                   <div className={a.rowActions}>
                     {u.status === 'INVITED' && (
                       <Button variant="secondary" size="sm" loading={resending === u.id} onClick={() => resend(u)}>

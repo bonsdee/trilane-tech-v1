@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import Logo from '../components/Logo';
 import ThemeToggle from '../components/ThemeToggle';
@@ -17,6 +18,10 @@ const NAV = [
   { to: '/admin/users', label: 'Users', icon: 'M12 12a4 4 0 100-8 4 4 0 000 8zM4 21c0-4 4-6 8-6s8 2 8 6' },
 ];
 
+// On phones the bottom bar shows this many links; the rest sit behind "More".
+const PHONE_BAR_ITEMS = 4;
+const MORE_ICON = 'M5 12h.01M12 12h.01M19 12h.01';
+
 function Icon({ d }) {
   return (
     <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
@@ -29,6 +34,25 @@ export default function AdminLayout() {
   const { user, logout } = useAuth();
   const location = useLocation();
   usePageMeta({ title: 'Dashboard', noindex: true });
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreRef = useRef(null);
+  const extras = NAV.slice(PHONE_BAR_ITEMS);
+  const extraActive = extras.some((item) => location.pathname.startsWith(item.to));
+
+  useEffect(() => setMoreOpen(false), [location.pathname]);
+  useEffect(() => {
+    if (!moreOpen) return undefined;
+    const onDown = (e) => moreRef.current && !moreRef.current.contains(e.target) && setMoreOpen(false);
+    const onKey = (e) => e.key === 'Escape' && setMoreOpen(false);
+    document.addEventListener('pointerdown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('pointerdown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [moreOpen]);
+
+  const linkClass = ({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ''}`;
   return (
     <div className={styles.shell}>
       <a href="#admin-main" className="skip-link">
@@ -39,12 +63,40 @@ export default function AdminLayout() {
           <Logo className={styles.sidebarLogo} />
         </Link>
         <nav aria-label="Dashboard" className={styles.nav}>
-          {NAV.map((item) => (
-            <NavLink key={item.to} to={item.to} end={item.end} className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ''}`}>
+          {NAV.map((item, i) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.end}
+              className={(state) => `${linkClass(state)} ${i >= PHONE_BAR_ITEMS ? styles.extra : ''}`}
+            >
               <Icon d={item.icon} />
               <span>{item.label}</span>
             </NavLink>
           ))}
+          {/* Phones only: the remaining pages, so they are never hidden off the edge. */}
+          <div className={styles.more} ref={moreRef}>
+            <button
+              type="button"
+              className={`${styles.navLink} ${styles.moreButton} ${extraActive || moreOpen ? styles.active : ''}`}
+              aria-expanded={moreOpen}
+              aria-controls="admin-more"
+              onClick={() => setMoreOpen((o) => !o)}
+            >
+              <Icon d={MORE_ICON} />
+              <span>More</span>
+            </button>
+            {moreOpen && (
+              <div id="admin-more" className={styles.morePanel}>
+                {extras.map((item) => (
+                  <NavLink key={item.to} to={item.to} className={linkClass}>
+                    <Icon d={item.icon} />
+                    <span>{item.label}</span>
+                  </NavLink>
+                ))}
+              </div>
+            )}
+          </div>
         </nav>
       </aside>
       <div className={styles.content}>

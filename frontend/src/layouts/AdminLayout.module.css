@@ -59,6 +59,19 @@
   background: var(--color-accent-soft);
 }
 
+/* "More" only exists on phones. */
+.more {
+  display: none;
+}
+
+.moreButton {
+  width: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
 .active:hover {
   color: var(--color-accent);
   background: var(--color-accent-soft);
@@ -83,7 +96,6 @@
   border-bottom: 1px solid var(--color-border);
   background: var(--color-header);
   backdrop-filter: saturate(180%) blur(18px);
-  -webkit-backdrop-filter: saturate(180%) blur(18px);
 }
 
 .mobileBrand {
@@ -133,24 +145,55 @@
     border-top: 1px solid var(--color-border);
     background: var(--color-header);
     backdrop-filter: saturate(180%) blur(18px);
-    -webkit-backdrop-filter: saturate(180%) blur(18px);
   }
   .brand {
     display: none;
   }
   .nav {
     flex-direction: row;
-    overflow-x: auto;
-    gap: 0;
-    scrollbar-width: none;
+    gap: 2px;
   }
   .navLink {
-    flex: 1 0 64px;
+    flex: 1 1 0;
+    min-width: 0;
     flex-direction: column;
     gap: 2px;
-    padding: 6px 4px;
+    padding: 6px 2px;
     font-size: 11px;
     text-align: center;
+  }
+  .extra {
+    display: none;
+  }
+  .more {
+    display: flex;
+    flex: 1 1 0;
+    min-width: 0;
+    position: relative;
+  }
+  .moreButton {
+    font-size: 11px;
+  }
+  .morePanel {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 10px);
+    min-width: 180px;
+    display: grid;
+    gap: 2px;
+    padding: 6px;
+    border-radius: 16px;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface-raised);
+    box-shadow: var(--shadow-lift);
+    animation: more-in 180ms var(--ease) both;
+  }
+  .morePanel .navLink {
+    flex-direction: row;
+    gap: 12px;
+    padding: 12px;
+    font-size: var(--text-small);
+    text-align: left;
   }
   .mobileBrand {
     display: inline-flex;
@@ -164,5 +207,12 @@
   }
   .main {
     padding: var(--space-3) var(--space-2) calc(96px + env(safe-area-inset-bottom));
+  }
+}
+
+@keyframes more-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
   }
 }
