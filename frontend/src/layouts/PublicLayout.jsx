@@ -14,7 +14,7 @@ function navItems(portfolioVisible) {
   return [
     { to: '/services', label: 'Services & Pricing' },
     { to: '/about', label: 'About' },
-    ...(portfolioVisible ? [{ to: '/portfolio', label: 'Portfolio' }] : []),
+    ...(portfolioVisible ? [{ to: '/portfolio', label: 'Work' }] : []),
     { to: '/faq', label: 'FAQ' },
   ];
 }

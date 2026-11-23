@@ -85,7 +85,7 @@ Published services grouped by category, in display order. Every category is pres
           "price": 2800.00,
           "billingPeriod": "ONCE",
           "regularPrice": null,
-          "timeline": "10–14 business days",
+          "timeline": "10–14 business days after we receive all content",
           "hours": null,
           "summary": "A custom 4–6 page website …",
           "idealFor": "Businesses with no website or a very basic one",

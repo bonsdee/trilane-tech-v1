@@ -47,9 +47,9 @@ const LANES = [
 
 // Facts from the published packages. Update these if the Foundation Website terms change.
 const FACTS = [
-  { value: '10–14', unit: 'days', label: 'business days from kickoff to a launched Foundation Website' },
+  { value: '10–14', unit: 'days', label: 'business days to build a Foundation Website after we receive all content, about 3–5 weeks from kickoff' },
   { value: '2', unit: 'rounds', label: 'of revisions included on websites and landing pages' },
-  { value: '30', unit: 'days', label: 'of post-launch support for minor fixes' },
+  { value: '30', unit: 'days', label: 'of post-launch support on new websites' },
   { value: '$95', unit: '/hour', label: 'for extra support hours, and only with your approval' },
 ];
 
@@ -58,7 +58,7 @@ const HEADLINE = 'Websites that bring in leads, and the hands to follow them up.
 const STEPS = [
   { title: 'Kickoff', text: 'We agree the pages, scope and launch date for your Foundation Website.' },
   { title: 'Your content', text: 'Send your text and images within 10 business days, or add copywriting at $150 per page.' },
-  { title: 'Design & build', text: 'Your site takes shape in 10–14 business days, with 2 rounds of revisions.' },
+  { title: 'Design & build', text: 'Your site takes shape in 10–14 business days after we receive all content (about 3–5 weeks from kickoff), with 2 rounds of revisions.' },
   { title: 'Launch', text: 'We set up on-page SEO, Google Analytics and Search Console, then go live.' },
   { title: 'Support & care', text: '30 days of minor fixes after launch, then optional Website Care at $200/month.' },
 ];

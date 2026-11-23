@@ -33,9 +33,17 @@ export default function PilotOffer({ ctaName, variant = 'card' }) {
           short testimonial and permission to use the project as a case study.
         </p>
       </div>
-      <Button size="lg" arrow to={contactLink({ service: pilot.serviceSlug, cta: ctaName })} className={`${styles.button} sheen`}>
-        Claim a pilot spot
-      </Button>
+      {/* Goes to the shared booking page when one is set, otherwise to the contact form. */}
+      {site.bookingUrl ? (
+        <Button size="lg" arrow href={site.bookingUrl} target="_blank" rel="noopener noreferrer" className={`${styles.button} sheen`}>
+          Claim a pilot spot
+          <span className="visually-hidden"> (opens the booking page in a new tab)</span>
+        </Button>
+      ) : (
+        <Button size="lg" arrow to={contactLink({ service: pilot.serviceSlug, cta: ctaName })} className={`${styles.button} sheen`}>
+          Claim a pilot spot
+        </Button>
+      )}
     </div>
   );
 

@@ -14,7 +14,7 @@ import styles from './Portfolio.module.css';
 
 export default function Portfolio() {
   const { site, loading: siteLoading } = useSite();
-  usePageMeta({ title: 'Portfolio', description: 'Selected projects by Trilane Tech.', path: '/portfolio' });
+  usePageMeta({ title: 'Work', description: 'Selected projects and concept sites by Trilane Tech.', path: '/portfolio' });
   const { data, loading, error, reload } = useFetch(getPublicPortfolio, []);
 
   if (siteLoading) return <LoadingBlock />;
@@ -24,7 +24,7 @@ export default function Portfolio() {
   const hasConcepts = (data || []).some((p) => p.concept);
   return (
     <>
-      <PageHeader eyebrow="Portfolio" title="Selected work.">
+      <PageHeader eyebrow="Work" title="Selected work.">
         A look at our work and what each project set out to do.
         {hasConcepts && ' Projects marked "Concept" were built to show our approach, not for a client.'}
       </PageHeader>

@@ -7,7 +7,7 @@ import styles from './BookCall.module.css';
  * until a booking link is saved in the admin Settings page.
  * variant: "button" (just the button) or "panel" (short heading, text and button).
  */
-export default function BookCall({ variant = 'button', size = 'lg', buttonVariant = 'secondary' }) {
+export default function BookCall({ variant = 'button', size = 'lg', buttonVariant = 'outline' }) {
   const { site } = useSite();
   const url = site?.bookingUrl;
   if (!url) return null;

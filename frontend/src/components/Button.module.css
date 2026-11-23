@@ -65,6 +65,17 @@
   border-color: var(--color-text-secondary);
 }
 
+/* Teal outline: used for "Book a call", second to the solid primary button. */
+.outline {
+  background: transparent;
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.outline:hover:not(:disabled) {
+  background: var(--color-accent-soft);
+}
+
 .ghost {
   background: transparent;
   color: var(--color-text);

@@ -153,11 +153,24 @@ class ContentIntegrationTest extends IntegrationTest {
 
     @Test
     void faqsCanBeHidden() throws Exception {
-        mvc.perform(get("/api/v1/public/faqs")).andExpect(jsonPath("$.data.length()").value(12));
+        mvc.perform(get("/api/v1/public/faqs")).andExpect(jsonPath("$.data.length()").value(14));
         mvc.perform(post("/api/v1/admin/faqs").header("Authorization", auth).contentType(MediaType.APPLICATION_JSON)
                 .content("{\"question\":\"Hidden?\",\"answer\":\"Yes.\",\"published\":false}")).andExpect(status().isCreated());
-        mvc.perform(get("/api/v1/public/faqs")).andExpect(jsonPath("$.data.length()").value(12));
-        mvc.perform(get("/api/v1/admin/faqs").header("Authorization", auth)).andExpect(jsonPath("$.data.length()").value(14));
+        mvc.perform(get("/api/v1/public/faqs")).andExpect(jsonPath("$.data.length()").value(14));
+        mvc.perform(get("/api/v1/admin/faqs").header("Authorization", auth)).andExpect(jsonPath("$.data.length()").value(16));
+    }
+
+    @Test
+    void revisionsOnePointOneContentIsSeeded() throws Exception {
+        mvc.perform(get("/api/v1/public/services"))
+                .andExpect(jsonPath("$.data[0].services[0].slug").value("foundation-website"))
+                .andExpect(jsonPath("$.data[0].services[0].timeline").value("10–14 business days after we receive all content"))
+                .andExpect(jsonPath("$.data[0].services[1].items[?(@.kind == 'NOT_INCLUDED')].text").value(org.hamcrest.Matchers.hasItem("Ad campaign setup")))
+                .andExpect(jsonPath("$.data[0].services[2].items[?(@.kind == 'NOT_INCLUDED')].text").value(org.hamcrest.Matchers.hasItem("Moving to a new host")));
+        mvc.perform(get("/api/v1/public/faqs"))
+                .andExpect(jsonPath("$.data[?(@.question == 'What are your payment terms?')]").exists())
+                .andExpect(jsonPath("$.data[?(@.question == 'Can I cancel a retainer?')]").exists())
+                .andExpect(jsonPath("$.data[-1].question").value("What currency are your prices in?"));
     }
 
     @Test

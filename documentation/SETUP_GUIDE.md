@@ -196,7 +196,7 @@ Some providers show a `postgres://user:pass@host/db` address; the JDBC address u
 2. Attach a **persistent disk** mounted at `/data/uploads`. Without it, uploaded images are lost on every redeploy. The image already sets `UPLOAD_DIR=/data/uploads`.
 3. Set the environment variables (section 10): `SPRING_PROFILES_ACTIVE=prod`, the `DB_*` values, a new `JWT_SECRET` (`openssl rand -base64 48`), `SITE_URL=https://trilanetech.com`, `CORS_ALLOWED_ORIGINS=https://trilanetech.com,https://www.trilanetech.com`, `ADMIN_EMAIL`, `ADMIN_NAME`, the Google `MAIL_*` values (section 12) and `LEAD_NOTIFICATION_TO`.
 4. If the host requires a health check path, use `/api/v1/public/site`.
-5. Deploy. In the log, look for `Successfully applied 4 migrations` and `Created the first admin account`.
+5. Deploy. In the log, look for `Successfully applied 5 migrations` (or `1 migration` on a database that already has the first four) and `Created the first admin account`.
 6. Add the custom domain `api.trilanetech.com` on the host and enable HTTPS.
 
 The production profile trusts the host's proxy headers so client addresses are correct for the contact form limit. If every visitor seems to share one limit, the host's proxy address is outside the usual private ranges; set `SERVER_TOMCAT_REMOTEIP_INTERNALPROXIES` to a regular expression matching it.
