@@ -9,6 +9,7 @@ PostgreSQL 16. The schema is created and versioned by Flyway; the SQL lives in `
 | `V3__team_bios.sql` | Full names, roles and bios for the three team profiles (skipped for any profile already edited in the dashboard) |
 | `V4__revisions_concepts_booking_location.sql` | Website revisions 1.0: `portfolio_projects.is_concept`, the `booking.url` setting, the pilot offer switched off with its FAQ hidden, and a FAQ on location and hours |
 | `V5__timelines_exclusions_payment_faqs.sql` | Website revisions 1.1: Foundation Website timeline counted from when all content arrives (about 3–5 weeks from kickoff), "Not included" lists for the Landing Page and Website Optimization Sprint, FAQs on payment terms and cancelling retainers, and the Skyline GT-R project marked as a concept |
+| `V6__lock_down_data_api.sql` | Security: row level security on every app table, Supabase's Data API roles (`anon`, `authenticated`) lose their access, and indexes on 7 foreign keys. Flyway's history table gets RLS by hand (see the setup guide) |
 
 Flyway runs automatically when the backend starts. To change the schema later, add a new file such as `V5__add_testimonials.sql`; never edit a migration that has already run in production.
 

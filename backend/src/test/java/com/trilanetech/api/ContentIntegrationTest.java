@@ -161,6 +161,17 @@ class ContentIntegrationTest extends IntegrationTest {
     }
 
     @Test
+    void everyAppTableHasRowLevelSecurityOn() {
+        // V6: Supabase's Data API must not be able to read our tables. Flyway's own
+        // history table is switched on by hand (see V6), so it is not checked here.
+        List<String> unprotected = jdbc.queryForList(
+                "SELECT tablename FROM pg_tables WHERE schemaname = 'public' "
+                        + "AND tablename <> 'flyway_schema_history' AND NOT rowsecurity",
+                String.class);
+        assertThat(unprotected).isEmpty();
+    }
+
+    @Test
     void revisionsOnePointOneContentIsSeeded() throws Exception {
         mvc.perform(get("/api/v1/public/services"))
                 .andExpect(jsonPath("$.data[0].services[0].slug").value("foundation-website"))

@@ -190,13 +190,24 @@ DB_URL=jdbc:postgresql://<host>:<port>/<database>?sslmode=require
 
 Some providers show a `postgres://user:pass@host/db` address; the JDBC address uses the same parts, with the user and password going into `DB_USERNAME` and `DB_PASSWORD`.
 
+**On Supabase**, the site only talks to the database through the backend, never through Supabase's built-in Data API. Lock that API down:
+
+1. In the project, open **Project Settings → Data API** (or **Integrations → Data API → Settings**) and turn **Enable Data API** off.
+2. Migration `V6` turns on row level security (RLS) for every app table and removes the Data API roles' access. It can't do Flyway's own history table, because Flyway locks that table while migrating. After the first deploy, run this once in the Supabase **SQL Editor**:
+
+   ```sql
+   ALTER TABLE public.flyway_schema_history ENABLE ROW LEVEL SECURITY;
+   REVOKE ALL ON public.flyway_schema_history FROM anon, authenticated;
+   ```
+3. Any table added in a later migration needs `ALTER TABLE <name> ENABLE ROW LEVEL SECURITY;` in that same migration. The backend connects as the tables' owner, which is not affected by RLS.
+
 ### 11.2 Backend
 
 1. Create a web service from this repository with root directory `backend`, using the included **Dockerfile**.
 2. Attach a **persistent disk** mounted at `/data/uploads`. Without it, uploaded images are lost on every redeploy. The image already sets `UPLOAD_DIR=/data/uploads`.
 3. Set the environment variables (section 10): `SPRING_PROFILES_ACTIVE=prod`, the `DB_*` values, a new `JWT_SECRET` (`openssl rand -base64 48`), `SITE_URL=https://trilanetech.com`, `CORS_ALLOWED_ORIGINS=https://trilanetech.com,https://www.trilanetech.com`, `ADMIN_EMAIL`, `ADMIN_NAME`, the Google `MAIL_*` values (section 12) and `LEAD_NOTIFICATION_TO`.
 4. If the host requires a health check path, use `/api/v1/public/site`.
-5. Deploy. In the log, look for `Successfully applied 5 migrations` (or `1 migration` on a database that already has the first four) and `Created the first admin account`.
+5. Deploy. In the log, look for `Successfully applied 6 migrations` (or fewer on a database that already has some of them) and `Created the first admin account`.
 6. Add the custom domain `api.trilanetech.com` on the host and enable HTTPS.
 
 The production profile trusts the host's proxy headers so client addresses are correct for the contact form limit. If every visitor seems to share one limit, the host's proxy address is outside the usual private ranges; set `SERVER_TOMCAT_REMOTEIP_INTERNALPROXIES` to a regular expression matching it.
