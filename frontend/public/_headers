@@ -1,0 +1,4 @@
+# Email signature images, linked from the team's Gmail signatures.
+/email/*
+  Cache-Control: public, max-age=86400
+  X-Robots-Tag: noindex
