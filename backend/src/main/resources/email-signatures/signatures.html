@@ -12,7 +12,7 @@
    IDEA: a stack of Gmail compose windows, one per signature.
    PICTURE: the three signatures themselves, on white "email" panels.
    COLOUR and TYPE: Trilane teal on white / deep ink at night; Inter, as on the site.
-   LAYOUT: person switch, three compose cards, then setup steps. */
+   LAYOUT: person switch, then three compose cards. */
 :root{color-scheme:light dark;--bg:light-dark(#f4f7f6,#0e1113);--panel:light-dark(#ffffff,#161b1d);--ink:light-dark(#0e1113,#eef2f1);--muted:light-dark(#4b5563,#a9b6b3);--line:light-dark(#dde4e2,#2a3234);--teal:light-dark(#0f766e,#5eead4);--teal-ink:light-dark(#ffffff,#0e1113);--soft:light-dark(#e6f4f1,#13312d)}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
@@ -38,14 +38,6 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--teal);outline-offse
 .body{font:14px/1.6 Arial,Helvetica,sans-serif;color:#1f2937;margin-bottom:14px}
 .sig{overflow-x:auto}
 .status{font-size:13px;color:var(--teal);min-height:20px;padding:0 18px 12px;margin:0}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:18px;margin-top:34px}
-.step{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
-.step h2{font-size:18px;display:flex;gap:10px;align-items:baseline}
-.step h2 span{flex:none;width:28px;height:28px;border-radius:50%;background:var(--soft);color:var(--teal);display:inline-grid;place-items:center;font-size:14px}
-.step ol,.step ul{margin:0;padding-left:20px;font-size:15px}
-.step li{margin-bottom:6px}
-code{font-size:13px;background:var(--soft);padding:1px 5px;border-radius:5px;overflow-wrap:anywhere}
-.note{font-size:14px;color:var(--muted);border-left:3px solid var(--teal);padding:2px 0 2px 12px;margin:22px 0 0}
 @media(max-width:600px){.head{flex-direction:column}.acts,.acts button{width:100%}}
 </style>
 </head>
@@ -57,39 +49,6 @@ code{font-size:13px;background:var(--soft);padding:1px 5px;border-radius:5px;ove
   <div class="who" role="group" aria-label="Whose signatures" id="who"></div>
   <div id="cards"></div>
 
-  <p class="note" id="modeNote"></p>
-
-  <section class="steps" aria-label="Setup">
-    <div class="step">
-      <h2><span>1</span>Put the images online</h2>
-      <ol>
-        <li>Jivonz copies the <code>email</code> folder from the image pack into <code>frontend/public/</code> in the <code>trilane-tech</code> project.</li>
-        <li>Push to GitHub so Cloudflare Pages redeploys.</li>
-        <li>Check <code>trilanetech.com/email/jl.jpg</code> and <code>/logo.png</code> open in a browser.</li>
-      </ol>
-      <p style="font-size:14px;color:var(--muted);margin:10px 0 0">Do this before anyone installs a signature. Until then the photo and logo show as blank boxes.</p>
-    </div>
-    <div class="step">
-      <h2><span>2</span>Test deliverability</h2>
-      <ol>
-        <li>Open <a href="https://www.mail-tester.com" style="color:var(--teal)">mail-tester.com</a> and copy the test address it shows.</li>
-        <li>From Gmail, send it a realistic cold email with the <b>no-photo</b> signature. Check the score.</li>
-        <li>Repeat with the <b>with photo</b> version and compare.</li>
-      </ol>
-      <p style="font-size:14px;color:var(--muted);margin:10px 0 0">Also look at the DKIM result: your domain has two Google DKIM keys, and the test shows whether that causes a failure.</p>
-    </div>
-    <div class="step">
-      <h2><span>3</span>Add it to Gmail</h2>
-      <ol>
-        <li>Copy a signature with <b>Copy signature</b>.</li>
-        <li>In Gmail: gear icon → <b>See all settings</b> → <b>General</b> → <b>Signature</b> → <b>Create new</b>. Name it, e.g. "Cold" or "Client".</li>
-        <li>Click in the box, press Ctrl+V (Cmd+V on Mac).</li>
-        <li>Under <b>Signature defaults</b>, pick "Cold" for new emails, and tick the box to insert it before quoted text in replies.</li>
-        <li>Scroll down, click <b>Save Changes</b>.</li>
-      </ol>
-      <p style="font-size:14px;color:var(--muted);margin:10px 0 0">You can switch signatures per email with the pen icon at the bottom of a compose window.</p>
-    </div>
-  </section>
 </main>
 <script>
 {
@@ -131,11 +90,11 @@ code{font-size:13px;background:var(--soft);padding:1px 5px;border-radius:5px;ove
       } catch (e) {}
     }
     statusEl.textContent = ok ? 'Copied. Paste it into Gmail’s signature box.' :
-      'This window blocked copying. Open signatures.html from the image pack and copy from there.';
+      'Your browser blocked copying. Try again, or use Copy HTML.';
   }
   async function copyCode(html, statusEl){
     try { await navigator.clipboard.writeText(html); statusEl.textContent = 'HTML code copied.'; }
-    catch (e) { statusEl.textContent = 'This window blocked copying. Use signatures.html from the image pack.'; }
+    catch (e) { statusEl.textContent = 'Your browser blocked copying. Try again.'; }
   }
 
   function show(key){
@@ -171,9 +130,6 @@ code{font-size:13px;background:var(--soft);padding:1px 5px;border-radius:5px;ove
     if (b.dataset.copy) copyRich(D.sigs[key][v], st); else copyCode(D.sigs[key][v], st);
   });
 
-  document.getElementById('modeNote').textContent = MODE === 'artifact'
-    ? 'The photos and logo preview here from this page. The copied signature points to trilanetech.com/email/, so it shows images once step 1 is done. If Copy is blocked in this window, use signatures.html from the image pack.'
-    : 'This page loads the photos and logo from trilanetech.com/email/. If they show as blank boxes, step 1 is not done yet.';
 
   let start = 'jl';
   try { start = localStorage.getItem('trilane-sig-who') || 'jl'; } catch (e) {}

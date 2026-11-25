@@ -4,5 +4,6 @@
   min-height: 600px;
   border: 1px solid var(--color-border);
   border-radius: 16px;
-  background: #fff;
+  /* Matches the page inside, so there is no white flash in dark mode. */
+  background: var(--color-surface);
 }
