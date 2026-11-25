@@ -392,6 +392,10 @@ Body: `{ "question" (≤300), "answer" (≤5,000), "displayOrder", "published" }
 - `GET /admin/settings/booking`: `{ url }` (empty string when none is set)
 - `PUT /admin/settings/booking` with `{ "url": "https://calendar.app.google/…" }`. The address must start with `https://` (at most 500 characters). Send `""` to hide the "Book a call" buttons.
 
+### Email signatures
+
+- `GET /admin/email-signatures`: `{ html }`, the team's Gmail signature builder page, shown in the dashboard under **Signatures**. Sent with `Cache-Control: no-store`. The page lives in `backend/src/main/resources/email-signatures/signatures.html`; the images it uses stay public at `https://trilanetech.com/email/` (from `frontend/public/email/`), because email recipients load them.
+
 ### Users
 
 - `GET /admin/users`: `[{ id, fullName, email, role, active, status, lastLoginAt, createdAt }]`, where `status` is `ACTIVE`, `INVITED` or `DEACTIVATED`

@@ -14,6 +14,7 @@ const NAV = [
   { to: '/admin/team', label: 'Team', icon: 'M8 11a3 3 0 100-6 3 3 0 000 6zM16 11a3 3 0 100-6 3 3 0 000 6zM2 20c0-3 3-5 6-5s6 2 6 5M14 15c3 0 8 1 8 5' },
   { to: '/admin/portfolio', label: 'Portfolio', icon: 'M3 5h18v14H3zM3 15l5-5 4 4 3-3 6 6' },
   { to: '/admin/faq', label: 'FAQ', icon: 'M9 9a3 3 0 116 0c0 2-3 2-3 5M12 18h.01' },
+  { to: '/admin/signatures', label: 'Signatures', icon: 'M4 6h16v12H4zM4 7l8 6 8-6' },
   { to: '/admin/settings', label: 'Settings', icon: 'M4 7h9M17 7h3M15 5v4M4 17h3M11 17h9M9 15v4M4 12h16' },
   { to: '/admin/users', label: 'Users', icon: 'M12 12a4 4 0 100-8 4 4 0 000 8zM4 21c0-4 4-6 8-6s8 2 8 6' },
 ];

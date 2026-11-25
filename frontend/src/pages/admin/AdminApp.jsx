@@ -4,6 +4,7 @@ import { AuthProvider } from '../../context/AuthContext';
 import { useAuth } from '../../hooks/useAuth';
 import AdminLayout from '../../layouts/AdminLayout';
 import AdminNotFound from './AdminNotFound';
+import EmailSignatures from './EmailSignatures';
 import FaqAdmin from './FaqAdmin';
 import ForgotPassword from './ForgotPassword';
 import LeadDetail from './LeadDetail';
@@ -49,6 +50,7 @@ export default function AdminApp() {
           <Route path="team" element={<TeamAdmin />} />
           <Route path="portfolio" element={<PortfolioAdmin />} />
           <Route path="faq" element={<FaqAdmin />} />
+          <Route path="signatures" element={<EmailSignatures />} />
           <Route path="settings" element={<SettingsAdmin />} />
           <Route path="users" element={<UsersAdmin />} />
           <Route path="*" element={<AdminNotFound />} />
